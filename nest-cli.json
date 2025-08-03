@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/nexora-bff/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/nexora-bff/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/nexora-bff",
+  "projects": {
+    "bff-iot": {
+      "type": "application",
+      "root": "apps/bff-iot",
+      "entryFile": "main",
+      "sourceRoot": "apps/bff-iot/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff-iot/tsconfig.app.json"
+      }
+    },
+    "bff-ui": {
+      "type": "application",
+      "root": "apps/bff-ui",
+      "entryFile": "main",
+      "sourceRoot": "apps/bff-ui/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff-ui/tsconfig.app.json"
+      }
+    },
+    "shared": {
+      "type": "library",
+      "root": "libs/shared",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared/tsconfig.lib.json"
+      }
+    }
+  }
+}
