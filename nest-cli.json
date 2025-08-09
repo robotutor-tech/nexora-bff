@@ -28,6 +28,15 @@
         "tsConfigPath": "apps/bff-ui/tsconfig.app.json"
       }
     },
+    "mqtt-handler": {
+      "type": "application",
+      "root": "apps/mqtt-handler",
+      "entryFile": "main",
+      "sourceRoot": "apps/mqtt-handler/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mqtt-handler/tsconfig.app.json"
+      }
+    },
     "shared": {
       "type": "library",
       "root": "libs/shared",

@@ -1,12 +1,9 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
+import { MqttModule } from './modules/mqtt/mqtt.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
-import { DevicesModule } from './modules/device/devices.module'
-import { AuthModule } from './modules/auth/auth.module'
-import { FeedsModule } from './modules/feed/feeds.module'
-import { BridgeModule } from './modules/bridges/bridge.module'
 
 @Module({
-  imports: [AuthModule, DevicesModule, FeedsModule, BridgeModule],
+  imports: [MqttModule],
   controllers: [],
   providers: []
 })
