@@ -13,12 +13,12 @@ export class MqttService {
 
   async validateAuthToken(authRequest: AuthRequest): Promise<AuthResponse> {
     try {
-      await this.webclient.get<TokenResponse>({
+      const response = await this.webclient.get<TokenResponse>({
         baseUrl: this.authConfig.baseUrl,
         path: this.authConfig.validate,
         headers: { Authorization: authRequest.password }
       })
-      // eslint-disable-next-line camelcase
+      
       return { result: 'allow', client_attrs: { internal_id: randomUUID() } }
     } catch {
       // eslint-disable-next-line camelcase

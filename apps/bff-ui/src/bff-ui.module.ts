@@ -11,6 +11,7 @@ import { AutomationModule } from './modules/automation/automation.module'
 import { ConditionModule } from './modules/condition/condition.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
 import { BridgeModule } from './modules/bridges/bridge.module'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { BridgeModule } from './modules/bridges/bridge.module'
     FeedsModule,
     PremisesModule,
     TriggerModule,
+    UserModule,
     WidgetsModule,
     ZonesModule
   ],

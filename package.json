@@ -12,7 +12,7 @@
     "start:dev": "nest start --watch",
     "dev:bff-ui": "export APPLICATION_NAME=BFF-UI; nest start --watch bff-ui",
     "dev:bff-iot": "export APPLICATION_NAME=BFF-IOT; nest start --watch bff-iot",
-    "dev:mqtt-handler": "nest start --watch mqtt-handler",
+    "dev:mqtt-handler": "export APPLICATION_NAME=MQTT-HANDLER; nest start --watch mqtt-handler",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/nexora-bff/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

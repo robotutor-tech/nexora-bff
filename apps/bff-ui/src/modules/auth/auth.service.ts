@@ -1,23 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import { AuthUser, TokenResponse, UpdateTokenRequest, ValidatedUser } from './types/auth'
-import { RegisterUserRequest } from './dto/create-user.dto'
+import { TokenResponse, UpdateTokenRequest, ValidatedUser } from './types/auth'
 import { AuthLoginRequest } from './dto/auth-login.dto'
 import { apiConfig, Webclient } from '@shared'
 
 @Injectable()
 export class AuthService {
-  private readonly orchestrationConfig = apiConfig.orchestration
   private readonly authConfig = apiConfig.auth
 
   constructor(private readonly webclient: Webclient) {}
-
-  create(userRequest: RegisterUserRequest): Promise<AuthUser> {
-    return this.webclient.post<AuthUser>({
-      baseUrl: this.orchestrationConfig.baseUrl,
-      path: this.orchestrationConfig.registerUser,
-      body: userRequest
-    })
-  }
 
   login(loginRequest: AuthLoginRequest): Promise<TokenResponse> {
     return this.webclient.post<TokenResponse>({
@@ -36,6 +26,13 @@ export class AuthService {
       baseUrl: this.authConfig.baseUrl,
       path: this.authConfig.token,
       body: tokenRequest
+    })
+  }
+
+  refresh(): Promise<TokenResponse> {
+    return this.webclient.get<TokenResponse>({
+      baseUrl: this.authConfig.baseUrl,
+      path: this.authConfig.refresh
     })
   }
 }

@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common'
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
 import type { GetRequest, PostRequest } from './webclient'
 import { Document } from '../types/types'
 import { RequestContextService } from '../service/requestContext.service'
@@ -146,6 +146,6 @@ export class Webclient {
       }
     })
 
-    return { ...headers, ...this.requestContextService.getForwardHeaders() }
+    return { ...this.requestContextService.getForwardHeaders(), ...headers }
   }
 }

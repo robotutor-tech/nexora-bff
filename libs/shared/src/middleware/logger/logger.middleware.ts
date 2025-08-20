@@ -11,7 +11,6 @@ export class LoggerMiddleware implements NestMiddleware {
       message: 'Received Request',
       method: req.method,
       url: req.url,
-      additionalData: { data: req.body, headers: req.headers },
       searchableFields
     })
     const send = res.send

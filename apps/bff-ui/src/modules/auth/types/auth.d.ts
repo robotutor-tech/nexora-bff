@@ -8,7 +8,8 @@ export type AuthUser = {
 }
 
 export type TokenResponse = {
-  token: string
+  token: string,
+  refreshToken: string,
 }
 
 export type ValidatedUser = {

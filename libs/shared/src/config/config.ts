@@ -9,6 +9,7 @@ export const apiConfig = {
     login: '/auth/login',
     token: '/auth/tokens',
     validate: '/auth/validate',
+    refresh: '/auth/refresh',
     deviceInvitation: '/auth/invitations/devices'
   },
   automation: {
@@ -39,6 +40,10 @@ export const apiConfig = {
     baseUrl: process.env.AUTOMATION_SERVICE_BASE_URL ?? 'http://localhost:9001',
     triggers: '/triggers',
     trigger: '/triggers/{triggerId}'
+  },
+  user: {
+    baseUrl: `${process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001'}/users`,
+    me: '/me'
   },
   widget: { baseUrl: process.env.WIDGET_SERVICE_BASE_URL ?? 'http://localhost:9001/widgets' },
   zone: {
