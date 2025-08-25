@@ -12,10 +12,12 @@ import { ConditionModule } from './modules/condition/condition.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
 import { BridgeModule } from './modules/bridges/bridge.module'
 import { UserModule } from './modules/user/user.module'
+import { ActorModule } from './modules/actor/actor.module'
 
 @Module({
   imports: [
     ActionModule,
+    ActorModule,
     AuthModule,
     AutomationModule,
     BridgeModule,

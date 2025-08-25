@@ -4,13 +4,14 @@ export const apiConfig = {
     actions: '/actions',
     action: '/actions/{actionId}'
   },
+  actor: { baseUrl: process.env.IAM_SERVICE_BASE_URL ?? 'http://localhost:9001', me: '/actors/me' },
   auth: {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
     login: '/auth/login',
-    token: '/auth/tokens',
+    actorLogin: '/auth/login/actor',
     validate: '/auth/validate',
     refresh: '/auth/refresh',
-    deviceInvitation: '/auth/invitations/devices'
+    deviceInvitation: '/auth/invitations'
   },
   automation: {
     baseUrl: process.env.AUTOMATION_SERVICE_BASE_URL ?? 'http://localhost:9001',

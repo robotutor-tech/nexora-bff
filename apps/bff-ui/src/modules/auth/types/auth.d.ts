@@ -20,4 +20,3 @@ export type ValidatedUser = {
 export type TokenIdentifier = 'PREMISES_ACTOR' | 'AUTH_USER'
 export type ActorIdentifier = 'HUMAN'
 
-export type UpdateTokenRequest = { actorId: string; roleId: string }

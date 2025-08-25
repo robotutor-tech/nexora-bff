@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { TokenResponse, UpdateTokenRequest, ValidatedUser } from './types/auth'
+import { TokenResponse, ValidatedUser } from './types/auth'
 import { AuthLoginRequest } from './dto/auth-login.dto'
 import { apiConfig, Webclient } from '@shared'
+import { ActorLoginRequest } from './dto/actor-login.dto'
 
 @Injectable()
 export class AuthService {
@@ -21,11 +22,11 @@ export class AuthService {
     return this.webclient.get<ValidatedUser>({ baseUrl: this.authConfig.baseUrl, path: this.authConfig.validate })
   }
 
-  updateToken(tokenRequest: UpdateTokenRequest): Promise<TokenResponse> {
+  actorLogin(actorLoginRequest: ActorLoginRequest): Promise<TokenResponse> {
     return this.webclient.post<TokenResponse>({
       baseUrl: this.authConfig.baseUrl,
-      path: this.authConfig.token,
-      body: tokenRequest
+      path: this.authConfig.actorLogin,
+      body: actorLoginRequest
     })
   }
 

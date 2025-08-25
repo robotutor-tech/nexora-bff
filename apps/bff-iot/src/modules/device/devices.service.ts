@@ -5,14 +5,14 @@ import { apiConfig, Webclient } from '@shared'
 
 @Injectable()
 export class DevicesService {
-  private readonly orchestrationConfig = apiConfig.orchestration
+  private readonly deviceConfig = apiConfig.device
 
   constructor(private readonly webclient: Webclient) {}
 
   registerDevice(request: RegisterDeviceRequest): Promise<DeviceInvitation> {
     return this.webclient.post<DeviceInvitation>({
-      baseUrl: this.orchestrationConfig.baseUrl,
-      path: this.orchestrationConfig.registerDevice,
+      baseUrl: this.deviceConfig.baseUrl,
+      path: '',
       body: request
     })
   }
