@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { NameSchema } from '../../../shared/schema/name.schema'
 
 const validateAutomationConfig = (data: z.infer<typeof CreateAutomationSchema>['config']) => {
   switch (data.type) {
@@ -41,7 +42,7 @@ const TimeRangeAutomationConfigSchema = z
 
 export const CreateAutomationSchema = z
   .object({
-    name: z.string().nonempty('Name is required'),
+    name: NameSchema,
     description: z.string().optional(),
     config: z.object({ type: z.enum(['FEED', 'TIME_RANGE']) }).catchall(z.any())
   })

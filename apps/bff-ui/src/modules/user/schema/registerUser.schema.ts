@@ -1,11 +1,9 @@
 import { z } from 'zod'
+import { NameSchema } from '../../../shared/schema/name.schema'
 
 export const RegisterUserSchema = z
   .object({
-    name: z
-      .string()
-      .min(2, 'Name should not be less than 2 characters')
-      .max(30, 'Name should not be more than 30 characters'),
+    name: NameSchema,
     email: z.string().email({ message: 'Email should be valid' }),
     password: z
       .string()
@@ -14,6 +12,7 @@ export const RegisterUserSchema = z
       .regex(
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/,
         'Password must contain at least one uppercase letter, one lowercase letter, and one digit'
-      )
+      ),
+    mobile: z.string().regex(/^\d{10}$/, 'Mobile number must be exactly 10 digits')
   })
   .strict()

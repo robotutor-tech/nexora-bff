@@ -11,7 +11,7 @@ export class UserController {
 
   @Post('register')
   @UsePipes(new ZodValidationPipe(RegisterUserSchema))
-  create(@Body() registerUserDto: RegisterUserDto): Promise<User> {
+  registerUser(@Body() registerUserDto: RegisterUserDto): Promise<User> {
     return this.userService.registerUser(registerUserDto)
   }
 

@@ -30,17 +30,10 @@ export const apiConfig = {
     premises: '/premises',
     premisesDetails: '/premises/{premisesId}'
   },
-  orchestration: {
-    baseUrl: `${process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001'}/orchestration`,
-    registerUser: '/users/register',
-    registerPremises: '/premises/register',
-    registerDevice: '/devices/register',
-    getPremises: '/premises'
-  },
-  trigger: {
+  rule: {
     baseUrl: process.env.AUTOMATION_SERVICE_BASE_URL ?? 'http://localhost:9001',
-    triggers: '/triggers',
-    trigger: '/triggers/{triggerId}'
+    rules: '/rules',
+    rule: '/rules/{ruleId}'
   },
   user: {
     baseUrl: `${process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001'}/users`,

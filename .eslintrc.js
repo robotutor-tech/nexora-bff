@@ -6,9 +6,9 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint'],
   parser: '@typescript-eslint/parser',
-  'parserOptions': {
-    'project': './tsconfig.json',
-    'sourceType': 'module'
+  parserOptions: {
+    project: './tsconfig.json',
+    sourceType: 'module'
   },
   root: true,
   ignorePatterns: ['**/*.js', 'dist', 'coverage'],
@@ -127,17 +127,18 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.spec.ts', 'src/mocks/*.ts'],
+      files: ['*.spec.ts'],
       rules: {
         'max-len': 'warn',
         '@typescript-eslint/no-magic-numbers': 'off',
         'max-statements': 'off',
         '@typescript-eslint/unbound-method': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off'
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-argument': 'off'
       }
     },
     {
-      files: ['index.ts', 'src/config/apiConfig.ts', 'src/config/config.ts'],
+      files: ['ConfigRenderer.tsx', 'src/config/apiConfig.ts', 'src/config/config.ts'],
       rules: {
         'no-process-env': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off'
