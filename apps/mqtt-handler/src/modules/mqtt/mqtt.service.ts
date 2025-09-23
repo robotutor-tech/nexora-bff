@@ -1,33 +1,27 @@
 import { Injectable } from '@nestjs/common'
-import { AuthResponse, TokenResponse } from './types/mqtt'
-import { apiConfig, Webclient } from '@shared'
-import { AuthRequest } from './dto/auth.dto'
+import { AuthenticationResponse, AuthorizationResponse } from './types/mqtt'
+import { AuthenticationRequest } from './dto/authenticationDto'
 import { AclRequest } from './dto/acl.dto'
-import { randomUUID } from 'node:crypto'
+import { ChainFactory } from './chain/chain.factory'
+import { StatusRequest } from './dto/status.dto'
 
 @Injectable()
 export class MqttService {
-  private readonly authConfig = apiConfig.auth
+  constructor(private readonly chainFactory: ChainFactory) {}
 
-  constructor(private readonly webclient: Webclient) {}
-
-  async validateAuthToken(authRequest: AuthRequest): Promise<AuthResponse> {
-    try {
-      const response = await this.webclient.get<TokenResponse>({
-        baseUrl: this.authConfig.baseUrl,
-        path: this.authConfig.validate,
-        headers: { Authorization: authRequest.password }
-      })
-      
-      return { result: 'allow', client_attrs: { internal_id: randomUUID() } }
-    } catch {
-      // eslint-disable-next-line camelcase
-      return { result: 'allow', client_attrs: { internal_id: randomUUID() } }
-    }
+  async validateAuthToken(authenticationRequest: AuthenticationRequest): Promise<AuthenticationResponse> {
+    const chain = this.chainFactory.authenticationChain()
+    return chain.handle(authenticationRequest)
   }
 
-  validateAcl(aclRequest: AclRequest): Promise<{ result: 'allow' }> {
-    console.log(aclRequest, 'ACL Request Received')
-    return Promise.resolve({ result: 'allow' })
+  async validateAcl(aclRequest: AclRequest): Promise<AuthorizationResponse> {
+    const chain = this.chainFactory.authorizationChain()
+    return chain.handle(aclRequest)
+  }
+
+  updateStatus(statusRequest: StatusRequest): void {
+    console.log(statusRequest, '------status-----')
+    // const chain = this.chainFactory.accessValidationChain()
+    // return chain.handle(statusRequest)
   }
 }

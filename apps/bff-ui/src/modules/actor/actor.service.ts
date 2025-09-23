@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { apiConfig, Webclient } from '@shared'
-import { Actor } from './types/actor'
+import { Actor } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorService {

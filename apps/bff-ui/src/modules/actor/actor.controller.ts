@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common'
 import { ActorService } from './actor.service'
-import { Actor } from './types/actor'
+import { Actor } from '@shared/cache/cache'
 
 @Controller('actors')
 export class ActorController {

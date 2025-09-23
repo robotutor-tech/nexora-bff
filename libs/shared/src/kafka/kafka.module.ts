@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { KafkaService } from './kafka.service'
 import { ClientsModule } from '@nestjs/microservices'
 import { KafkaConfig } from './kafka.config'
+import { CacheModule } from '@shared/cache/cache.module'
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { KafkaConfig } from './kafka.config'
         }
       ],
       isGlobal: true
-    })
+    }),
+    CacheModule
   ],
   providers: [KafkaService],
   exports: [KafkaService]

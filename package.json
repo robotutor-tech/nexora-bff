@@ -23,14 +23,16 @@
     "test:e2e": "jest --config ./apps/nexora-bff/test/jest-e2e.json"
   },
   "dependencies": {
+    "@keyv/redis": "^5.1.2",
+    "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/microservices": "^11.1.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/platform-socket.io": "^11.1.5",
     "axios": "^1.11.0",
+    "cache-manager": "^7.2.0",
     "kafkajs": "^2.2.4",
-    "logging-starter": "^0.0.6",
     "mqtt": "^5.14.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

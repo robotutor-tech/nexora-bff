@@ -1,9 +1,23 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './bff-ui.module'
+import { Transport } from '@nestjs/microservices'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  app.connectMicroservice({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        clientId: 'bff-ui',
+        brokers: ['localhost:9092']
+      },
+      consumer: {
+        groupId: 'bff-ui-consumer-group'
+      }
+    }
+  })
   app.setGlobalPrefix('api')
+  app.startAllMicroservices().catch()
   await app.listen(process.env.port ?? 3001)
 }
 

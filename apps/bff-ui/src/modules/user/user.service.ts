@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { User } from './types/user'
 import { RegisterUserRequest } from './dto/register-user.dto'
 import { apiConfig, Webclient } from '@shared'
+import { User } from '@shared/cache/cache'
 
 @Injectable()
 export class UserService {

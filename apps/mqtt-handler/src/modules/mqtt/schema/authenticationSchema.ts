@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
-export const AuthSchema = z
+export const AuthenticationSchema = z
   .object({
+    clientId: z.string(),
     password: z.string()
   })
   .strict()

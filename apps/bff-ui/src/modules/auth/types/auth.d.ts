@@ -1,22 +1,19 @@
-import type { Identifier } from '@/common/types/types'
-
-export type AuthUser = {
-  name: string
-  email: string
-  userId: string
-  registeredAt: Date
-}
-
 export type TokenResponse = {
-  token: string,
-  refreshToken: string,
+  token: string
+  refreshToken: string
 }
 
-export type ValidatedUser = {
-  tokenIdentifier: Identifier<TokenIdentifier>
-  actor?: { actorId: string; premisesId: string; actorIdentifier: Identifier<ActorIdentifier> }
+export type ValidatedUser<T extends PrincipalType = PrincipalType> = {
+  isValid: boolean
+  principalType: T
+  principal: PrincipalMap[T]
+  expiresAt: Date
 }
 
-export type TokenIdentifier = 'PREMISES_ACTOR' | 'AUTH_USER'
-export type ActorIdentifier = 'HUMAN'
+type PrincipalMap = {
+  SERVER: { serverId: string }
+  USER: { userId: string }
+  ACTOR: { actorId: string; roleId: string }
+}
 
+export type PrincipalType = keyof PrincipalMap

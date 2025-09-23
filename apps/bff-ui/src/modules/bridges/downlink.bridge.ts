@@ -7,8 +7,13 @@ import { MqttClient } from '@shared/mqtt/mqtt.client'
 export class DownlinkBridge {
   constructor(private readonly mqttClient: MqttClient) {}
 
-  @MessagePattern('out.feed.update', Transport.KAFKA)
+  @MessagePattern('feed.value.updated', Transport.KAFKA)
   updateFeedValue({ feedId, value }: FeedValueOut): void {
-    this.mqttClient.publish(`feed/${feedId}/value`, { value: value })
+    this.mqttClient.publish(`web/feed/${feedId}/value`, { value: value, feedId })
+  }
+
+  @MessagePattern('auth.invitation.accepted', Transport.KAFKA)
+  invitationAccepted({ invitationId }: { invitationId: string }): void {
+    this.mqttClient.publish(`web/invitation/${invitationId}/status`, { status: 'ACCEPTED', invitationId })
   }
 }

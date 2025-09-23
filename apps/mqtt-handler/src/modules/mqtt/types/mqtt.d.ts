@@ -1,10 +1,10 @@
-export type TokenResponse = {
-  token: string
-}
+export type AuthenticationResponse =
+  | {
+      result: 'allow'
+      client_attrs: { internal_id: string }
+    }
+  | { result: 'deny' }
 
-export type AuthResponse = {
+export type AuthorizationResponse = {
   result: 'allow' | 'deny'
-  client_attrs?: {
-    internal_id: string
-  }
 }

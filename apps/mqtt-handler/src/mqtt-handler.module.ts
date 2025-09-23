@@ -1,9 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { MqttModule } from './modules/mqtt/mqtt.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
+import { CacheModule } from '@shared/cache/cache.module'
 
 @Module({
-  imports: [MqttModule],
+  imports: [MqttModule, CacheModule],
   controllers: [],
   providers: []
 })

@@ -23,7 +23,11 @@ export const apiConfig = {
     conditions: '/conditions',
     condition: '/conditions/{conditionId}'
   },
-  device: { baseUrl: process.env.DEVICE_SERVICE_BASE_URL ?? 'http://localhost:9001/devices' },
+  device: { baseUrl: process.env.DEVICE_SERVICE_BASE_URL ?? 'http://localhost:9001/devices', me: 'me' },
+  entitlement: {
+    baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
+    authorize: '/entitlements/authorize'
+  },
   feed: { baseUrl: process.env.FEED_SERVICE_BASE_URL ?? 'http://localhost:9001/feeds', feedValue: '/{feedId}/value' },
   premises: {
     baseUrl: process.env.PREMISES_SERVICE_BASE_URL ?? 'http://localhost:9001',

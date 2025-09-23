@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, Logger, Scope } from '@nestjs/common'
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import type { GetRequest, PostRequest } from './webclient'
 import { Document } from '../types/types'
@@ -7,6 +7,7 @@ import { RequestContextService } from '../service/requestContext.service'
 @Injectable({ scope: Scope.REQUEST })
 export class Webclient {
   private readonly axiosInstance: AxiosInstance
+  private readonly logger = new Logger(this.constructor.name)
 
   constructor(private readonly requestContextService: RequestContextService) {
     this.axiosInstance = axios.create({ timeout: 5000 })
@@ -27,55 +28,58 @@ export class Webclient {
 
   get<ReturnType>({ baseUrl, path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+    const startTime = new Date().getTime()
     return this.axiosInstance
       .get<ReturnType>(url, {
         headers: this.parseHeaders(headers)
       })
-      .logOnSuccess({
-        message: 'Successfully get GET API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers },
-        skipLoggingArgument: true
+      .then(response => {
+        const endTime = new Date().getTime()
+        const responseTime = endTime - startTime
+        this.logger.log(`Successfully get GET api response ${JSON.stringify({ responseTime, url, headers })}`)
+        return response
       })
-      .logOnError({
-        errorCode: 'API_FAILURE',
-        errorMessage: 'Failed to get GET API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers }
+      .catch(error => {
+        this.logger.error('Failed to get GET API response', { url, headers })
+        throw error
       }) as Promise<ReturnType>
   }
 
   post<ReturnType>({ baseUrl, path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+    const startTime = new Date().getTime()
     return this.axiosInstance
       .post<ReturnType>(url, body, {
         headers: this.parseHeaders(headers)
       })
-      .logOnSuccess({
-        message: 'Successfully get POST API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers },
-        skipLoggingArgument: true
+      .then(response => {
+        const endTime = new Date().getTime()
+        const responseTime = endTime - startTime
+        this.logger.log(`Successfully get POST api response ${JSON.stringify({ responseTime, url, headers })}`)
+        return response
       })
-      .logOnError({
-        errorCode: 'API_FAILURE',
-        errorMessage: 'Failed to get POST API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers }
+      .catch(error => {
+        this.logger.error('Failed to get POST API response', { url, headers })
+        throw error
       }) as Promise<ReturnType>
   }
 
   put<ReturnType>({ baseUrl, path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+    const startTime = new Date().getTime()
     return this.axiosInstance
       .put<ReturnType>(url, body, {
         headers: this.parseHeaders(headers)
       })
-      .logOnSuccess({
-        message: 'Successfully get PUT API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers },
-        skipLoggingArgument: true
+      .then(response => {
+        const endTime = new Date().getTime()
+        const responseTime = endTime - startTime
+        this.logger.log(`Successfully get PUT api response ${JSON.stringify({ responseTime, url, headers })}`)
+        return response
       })
-      .logOnError({
-        errorCode: 'API_FAILURE',
-        errorMessage: 'Failed to get PUT API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers }
+      .catch(error => {
+        this.logger.error('Failed to get PUT API response', { url, headers })
+        throw error
       }) as Promise<ReturnType>
   }
 
@@ -88,37 +92,39 @@ export class Webclient {
     headers = {}
   }: PostRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+    const startTime = new Date().getTime()
     return this.axiosInstance
       .patch<ReturnType>(url, body, {
         headers: this.parseHeaders(headers)
       })
-      .logOnSuccess({
-        message: 'Successfully get PATCH API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers },
-        skipLoggingArgument: true
+      .then(response => {
+        const endTime = new Date().getTime()
+        const responseTime = endTime - startTime
+        this.logger.log(`Successfully get PATCH api response ${JSON.stringify({ responseTime, url, headers })}`)
+        return response
       })
-      .logOnError({
-        errorCode: 'API_FAILURE',
-        errorMessage: 'Failed to get PATCH API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers }
+      .catch(error => {
+        this.logger.error('Failed to get PATCH API response', { url, headers })
+        throw error
       }) as Promise<ReturnType>
   }
 
   delete<ReturnType>({ baseUrl, path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+    const startTime = new Date().getTime()
     return this.axiosInstance
       .delete<ReturnType>(url, {
         headers: this.parseHeaders(headers)
       })
-      .logOnSuccess({
-        message: 'Successfully get DELETE API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers },
-        skipLoggingArgument: true
+      .then(response => {
+        const endTime = new Date().getTime()
+        const responseTime = endTime - startTime
+        this.logger.log(`Successfully get DELETE api response ${JSON.stringify({ responseTime, url, headers })}`)
+        return response
       })
-      .logOnError({
-        errorCode: 'API_FAILURE',
-        errorMessage: 'Failed to get DELETE API response',
-        additionalData: { baseUrl, path, queryParams, uriVariables, headers }
+      .catch(error => {
+        this.logger.error('Failed to get DELETE API response', { url, headers })
+        throw error
       }) as Promise<ReturnType>
   }
 

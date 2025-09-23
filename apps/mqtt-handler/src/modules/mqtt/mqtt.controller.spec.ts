@@ -2,7 +2,6 @@ import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
 import { MqttController } from './mqtt.controller'
 import { MqttService } from './mqtt.service'
-import type { AuthResponse } from './types/mqtt'
 
 describe('MqttController', () => {
   let controller: MqttController
@@ -27,35 +26,25 @@ describe('MqttController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined()
   })
-
+    it('should call webclient.get with auth validate path + Authorization header and return allow with internal_id', async () => {
   describe('validateMqttToken', () => {
     it('should delegate to mqttService.validateAuthToken and return response', async () => {
+
       const dto = { password: 'Bearer tkn' }
-      const resp: AuthResponse = { result: 'allow', client_attrs: { internal_id: 'id-1' } }
-
-      jest.spyOn(service, 'validateAuthToken').mockResolvedValueOnce(resp)
-
-      const result = await controller.validateMqttToken(dto )
-
-      expect(result).toStrictEqual(resp)
       expect(service.validateAuthToken).toHaveBeenCalledTimes(1)
       expect(service.validateAuthToken).toHaveBeenCalledWith(dto)
     })
   })
-
+      const result = await controller.authenticate(dto )
   describe('validateAcl', () => {
     it('should delegate to mqttService.validateAcl and return response', async () => {
-      const dto = { username: 'alice' }
+      const result = await service.validateAuthToken(req )
       const resp = { result: 'allow' as const }
 
       jest.spyOn(service, 'validateAcl').mockResolvedValueOnce(resp)
 
-      const result = await controller.validateAcl(dto )
+      const result = await controller.authorize(dto)
 
-      expect(result).toStrictEqual(resp)
-      expect(service.validateAcl).toHaveBeenCalledTimes(1)
-      expect(service.validateAcl).toHaveBeenCalledWith(dto)
-    })
-  })
-})
-
+      const dto = { username: 'alice' }
+      expect(result.result).toBe('allow')
+      expect(result.client_attrs?.internal_id).toEqual(expect.any(String))
