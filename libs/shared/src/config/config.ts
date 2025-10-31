@@ -8,6 +8,7 @@ export const apiConfig = {
   auth: {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
     login: '/auth/login',
+    deviceLogin: '/auth/login/device',
     actorLogin: '/auth/login/actor',
     validate: '/auth/validate',
     refresh: '/auth/refresh',
@@ -23,7 +24,11 @@ export const apiConfig = {
     conditions: '/conditions',
     condition: '/conditions/{conditionId}'
   },
-  device: { baseUrl: process.env.DEVICE_SERVICE_BASE_URL ?? 'http://localhost:9001/devices', me: 'me' },
+  device: {
+    baseUrl: process.env.DEVICE_SERVICE_BASE_URL ?? 'http://localhost:9001/devices',
+    me: '/me',
+    health: '/health'
+  },
   entitlement: {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
     authorize: '/entitlements/authorize'

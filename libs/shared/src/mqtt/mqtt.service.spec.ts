@@ -51,7 +51,7 @@ describe('MqttSubscriberExplorer', () => {
 
     // Should subscribe only the annotated method
     expect(subscribeMock).toHaveBeenCalledTimes(1)
-    const [topic, callback] = (subscribeMock as jest.Mock).mock.calls[0] as [string, (data: unknown) => void]
+    const [topic, callback] = (subscribeMock).mock.calls[0] as [string, (data: unknown) => void]
     expect(topic).toBe('devices/+/status')
 
     // Simulate message delivery and verify controller method invoked

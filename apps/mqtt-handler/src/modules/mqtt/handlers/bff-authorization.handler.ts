@@ -10,10 +10,7 @@ export class BFFAuthorizationHandler extends BaseHandler<AclRequest, Authorizati
   }
 
   async handle(aclRequest: AclRequest): Promise<AuthorizationResponse> {
-    if (aclRequest.internalId === 'BFF-IOT' && aclRequest.clientId === 'BFF-IOT') {
-      return { result: 'allow' }
-    }
-    if (aclRequest.internalId === 'BFF-UI' && aclRequest.clientId === 'BFF-UI') {
+    if (aclRequest.clientId === 'NEXORA-BFF') {
       return { result: 'allow' }
     }
     return super.next(aclRequest)

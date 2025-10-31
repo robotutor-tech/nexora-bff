@@ -32,7 +32,7 @@ describe('MqttConfig', () => {
 
     // Re-import to pick up env at module evaluation time
     jest.resetModules()
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+     
     const fresh = require('./mqtt.config') as { MqttConfig: typeof MqttConfig }
 
     expect(fresh.MqttConfig).toStrictEqual({

@@ -18,8 +18,12 @@ describe('MqttClient', () => {
 
     fakeClient = {
       on: jest.fn((event: string, cb: (...args: unknown[]) => void) => {
-        if (event === 'connect') handlers.connect = cb as () => void
-        if (event === 'message') handlers.message = cb as (topic: string, payload: Buffer) => void
+        if (event === 'connect') {
+          handlers.connect = cb as () => void
+        }
+        if (event === 'message') {
+          handlers.message = cb as (topic: string, payload: Buffer) => void
+        }
         return fakeClient as unknown as MqttJsClient
       }),
       subscribe: jest.fn(),

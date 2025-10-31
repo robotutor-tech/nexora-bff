@@ -24,7 +24,6 @@ export class MqttClient implements OnModuleInit, OnModuleDestroy {
         clientId: string
         payload: Record<string, unknown>
       }
-      this.logger.log(`Received mqtt topic ${topic}`, { clientId, payload })
       this.findCallbacksForTopic(topic).forEach(callback => {
         callback({ topic, payload, clientId })
       })

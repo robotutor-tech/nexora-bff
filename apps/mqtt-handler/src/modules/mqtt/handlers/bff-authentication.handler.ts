@@ -10,10 +10,7 @@ export class BFFAuthenticationHandler extends BaseHandler<AuthenticationRequest,
   }
 
   handle(authRequest: AuthenticationRequest): Promise<AuthenticationResponse> {
-    if (
-      (authRequest.password === 'BFF_IOT_PASSWORD' && authRequest.clientId === 'BFF-IOT') ||
-      (authRequest.password === 'BFF_UI_PASSWORD' && authRequest.clientId === 'BFF-UI')
-    ) {
+    if (authRequest.clientId === 'NEXORA-BFF') {
       return Promise.resolve({
         result: 'allow',
         // eslint-disable-next-line camelcase

@@ -40,7 +40,7 @@ export class Webclient {
         return response
       })
       .catch(error => {
-        this.logger.error('Failed to get GET API response', { url, headers })
+        this.logger.error(`Failed to get GET API response ${JSON.stringify({ url, headers, error })}`)
         throw error
       }) as Promise<ReturnType>
   }
@@ -59,7 +59,7 @@ export class Webclient {
         return response
       })
       .catch(error => {
-        this.logger.error('Failed to get POST API response', { url, headers })
+        this.logger.error(`Failed to get POST API response ${JSON.stringify({ url, headers, error })}`)
         throw error
       }) as Promise<ReturnType>
   }
@@ -78,7 +78,7 @@ export class Webclient {
         return response
       })
       .catch(error => {
-        this.logger.error('Failed to get PUT API response', { url, headers })
+        this.logger.error(`Failed to get PUT API response ${JSON.stringify({ url, headers, error })}`)
         throw error
       }) as Promise<ReturnType>
   }
@@ -104,7 +104,7 @@ export class Webclient {
         return response
       })
       .catch(error => {
-        this.logger.error('Failed to get PATCH API response', { url, headers })
+        this.logger.error(`Failed to get PATCH API response ${JSON.stringify({ url, headers, error })}`)
         throw error
       }) as Promise<ReturnType>
   }
@@ -123,7 +123,7 @@ export class Webclient {
         return response
       })
       .catch(error => {
-        this.logger.error('Failed to get DELETE API response', { url, headers })
+        this.logger.error(`Failed to get DELETE API response ${JSON.stringify({ url, headers, error })}`)
         throw error
       }) as Promise<ReturnType>
   }

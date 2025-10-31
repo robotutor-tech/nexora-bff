@@ -8,10 +8,14 @@ import { AclDto } from './dto/acl.dto'
 import { AuthenticationResponse, AuthorizationResponse } from './types/mqtt'
 import { StatusSchema } from './schema/status.schema'
 import { StatusDto } from './dto/status.dto'
+import { UpdateDeviceStatus } from './update-device-status'
 
 @Controller('mqtt')
 export class MqttController {
-  constructor(private readonly mqttService: MqttService) {}
+  constructor(
+    private readonly mqttService: MqttService,
+    private readonly updateDeviceStatus: UpdateDeviceStatus
+  ) {}
 
   @Post('auth')
   @HttpCode(HttpStatus.OK)
@@ -30,8 +34,8 @@ export class MqttController {
   @Post('status')
   @HttpCode(HttpStatus.OK)
   @UsePipes(new ZodValidationPipe(StatusSchema))
-  updateStatus(@Body() statusDto: StatusDto): { status: 'OK' } {
-    this.mqttService.updateStatus(statusDto)
+  async updateStatus(@Body() statusDto: StatusDto): Promise<{ status: 'OK' }> {
+    await this.updateDeviceStatus.update(statusDto)
     return { status: 'OK' }
   }
 }
