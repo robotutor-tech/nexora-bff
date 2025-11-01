@@ -1,10 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Logger, Scope } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import type { GetRequest, PostRequest } from './webclient'
 import { Document } from '../types/types'
 import { RequestContextService } from '../service/requestContext.service'
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class Webclient {
   private readonly axiosInstance: AxiosInstance
   private readonly logger = new Logger(this.constructor.name)
@@ -26,12 +26,12 @@ export class Webclient {
     )
   }
 
-  get<ReturnType>({ baseUrl, path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
+  async get<ReturnType>({ baseUrl, path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .get<ReturnType>(url, {
-        headers: this.parseHeaders(headers)
+        headers: await this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -45,12 +45,19 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  post<ReturnType>({ baseUrl, path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
+  async post<ReturnType>({
+    baseUrl,
+    path,
+    body,
+    queryParams,
+    uriVariables,
+    headers = {}
+  }: PostRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .post<ReturnType>(url, body, {
-        headers: this.parseHeaders(headers)
+        headers: await this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -64,12 +71,19 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  put<ReturnType>({ baseUrl, path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
+  async put<ReturnType>({
+    baseUrl,
+    path,
+    body,
+    queryParams,
+    uriVariables,
+    headers = {}
+  }: PostRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .put<ReturnType>(url, body, {
-        headers: this.parseHeaders(headers)
+        headers: await this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -83,7 +97,7 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  patch<ReturnType>({
+  async patch<ReturnType>({
     baseUrl,
     path,
     body,
@@ -95,7 +109,7 @@ export class Webclient {
     const startTime = new Date().getTime()
     return this.axiosInstance
       .patch<ReturnType>(url, body, {
-        headers: this.parseHeaders(headers)
+        headers: await this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -109,12 +123,18 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  delete<ReturnType>({ baseUrl, path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
+  async delete<ReturnType>({
+    baseUrl,
+    path,
+    queryParams,
+    uriVariables,
+    headers = {}
+  }: GetRequest): Promise<ReturnType> {
     const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .delete<ReturnType>(url, {
-        headers: this.parseHeaders(headers)
+        headers: await this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -144,7 +164,7 @@ export class Webclient {
     return urlWithPathParams + (queryParamsInString ? `?${queryParamsInString}` : '')
   }
 
-  private parseHeaders(headers: Document<string>): Document<string> {
+  private async parseHeaders(headers: Document<string>): Promise<Document<string>> {
     const keysToRemove = ['Content-Length', 'content-length', 'Content-length']
     keysToRemove.forEach(keyToRemove => {
       if (keyToRemove in headers) {
@@ -152,6 +172,7 @@ export class Webclient {
       }
     })
 
-    return { ...this.requestContextService.getForwardHeaders(), ...headers }
+    const forwardedHeaders = await this.requestContextService.getForwardHeaders()
+    return { ...forwardedHeaders, ...headers }
   }
 }

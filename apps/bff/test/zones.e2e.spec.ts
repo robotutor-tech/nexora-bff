@@ -2,7 +2,7 @@ import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
-import { AppModule } from '../src/bff-ui.module'
+import { AppModule } from '../src/bff.module'
 import { Webclient, apiConfig } from '@shared'
 
 jest.mock('logging-starter')

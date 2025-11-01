@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch, UsePipes } from '@nestjs/common'
 import { FeedsService } from './feeds.service'
 import { Feed } from './types/feed'
 import { ZodValidationPipe } from '@shared'
@@ -25,9 +25,9 @@ export class FeedsController {
   }
 
   @MqttMessage('client/feed/+/value')
-  updateFeed(@Body(new ZodValidationPipe(FeedValueSchema)) data: MqttPayload<{ value: number }>): void {
+  @UsePipes(new ZodValidationPipe(FeedValueSchema))
+  updateFeed(data: MqttPayload<FeedValueDto>): Promise<Feed> {
     const feedId = data.topic.split('/')[2]
-    console.log(data, '--------------------', feedId)
-    // this.mqttClient.publish(`web/invitation/${invitationId}/status`, { status: 'ACCEPTED', invitationId })
+    return this.feedsService.updateValue(feedId, data.payload)
   }
 }

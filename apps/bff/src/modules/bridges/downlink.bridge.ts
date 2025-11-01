@@ -14,6 +14,6 @@ export class DownlinkBridge {
 
   @MessagePattern('auth.invitation.accepted', Transport.KAFKA)
   invitationAccepted({ invitationId }: { invitationId: string }): void {
-    this.mqttClient.publish(`web/invitation/${invitationId}/status`, { status: 'ACCEPTED', invitationId })
+    this.mqttClient.publish(`server/invitation/${invitationId}/status`, { status: 'ACCEPTED', invitationId })
   }
 }

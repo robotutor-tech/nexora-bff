@@ -5,8 +5,8 @@ import { DiscoveryService, MetadataScanner } from '@nestjs/core'
 import { CacheModule } from '@shared/cache/cache.module'
 
 @Module({
-  imports: [],
-  providers: [MqttClient, CacheModule, MqttSubscriberExplorer, DiscoveryService, MetadataScanner],
+  imports: [CacheModule],
+  providers: [MqttClient, MqttSubscriberExplorer, DiscoveryService, MetadataScanner],
   exports: [MqttClient]
 })
 export class MqttModule {}

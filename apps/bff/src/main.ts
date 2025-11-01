@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './bff-ui.module'
+import { AppModule } from './bff.module'
 import { Transport } from '@nestjs/microservices'
 
 async function bootstrap() {
@@ -8,7 +8,7 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'bff-ui',
+        clientId: 'bff',
         brokers: ['localhost:9092']
       },
       consumer: {

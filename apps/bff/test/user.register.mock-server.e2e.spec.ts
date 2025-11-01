@@ -63,7 +63,7 @@ describe('User Register (e2e) with mock server', () => {
     process.env.AUTH_SERVICE_BASE_URL = `http://127.0.0.1:${port}`
     jest.resetModules()
 
-    const { AppModule } = await import('../src/bff-ui.module')
+    const { AppModule } = await import('../src/bff.module')
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]

@@ -22,10 +22,10 @@ export class MqttClient implements OnModuleInit, OnModuleDestroy {
       const { topic, clientId, payload } = JSON.parse(buffer.toString()) as {
         topic: string
         clientId: string
-        payload: Record<string, unknown>
+        payload: unknown
       }
       this.findCallbacksForTopic(topic).forEach(callback => {
-        callback({ topic, payload, clientId })
+        callback({ topic, payload, clientId }).then()
       })
     })
   }

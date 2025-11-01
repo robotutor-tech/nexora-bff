@@ -26,7 +26,7 @@ describe('bff-ui bootstrap (main.ts)', () => {
 
     process.env.port = '3100'
 
-    const { AppModule } = await import('./bff-ui.module')
+    const { AppModule } = await import('./bff.module')
     await import('./main')
 
     const { NestFactory } = (await import('@nestjs/core')) as unknown as { NestFactory: { create: jest.Mock } }
@@ -42,7 +42,7 @@ describe('bff-ui bootstrap (main.ts)', () => {
     const appMock = makeAppMock()
     mockNestFactoryCreate(appMock)
 
-    const { AppModule } = await import('./bff-ui.module')
+    const { AppModule } = await import('./bff.module')
     await import('./main')
 
     const { NestFactory } = (await import('@nestjs/core')) as unknown as { NestFactory: { create: jest.Mock } }
