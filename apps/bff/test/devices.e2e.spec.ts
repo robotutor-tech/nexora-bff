@@ -42,8 +42,8 @@ describe('Devices Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/devices/invitations').send(dto).expect(201)
       expect(res.body).toStrictEqual(invitation)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.auth.baseUrl,
-        path: apiConfig.auth.deviceInvitation,
+        baseUrl: apiConfig.iam.baseUrl,
+        path: apiConfig.iam.deviceInvitation,
         body: dto
       })
     })
@@ -79,8 +79,8 @@ describe('Devices Module (e2e)', () => {
       const res = await request(app.getHttpServer()).get('/devices/invitations').expect(200)
       expect(res.body).toStrictEqual(invitations)
       expect(webclient.get).toHaveBeenCalledWith({
-        baseUrl: apiConfig.auth.baseUrl,
-        path: apiConfig.auth.deviceInvitation
+        baseUrl: apiConfig.iam.baseUrl,
+        path: apiConfig.iam.deviceInvitation
       })
     })
   })

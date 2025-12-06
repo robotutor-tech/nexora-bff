@@ -10,7 +10,7 @@ export class FeedsService {
   constructor(private readonly webclient: Webclient) {}
 
   getAllFeeds(): Promise<Feed[]> {
-    return this.webclient.get<Feed[]>({ baseUrl: this.feedConfig.baseUrl, path: '' })
+    return this.webclient.get<Feed[]>({ baseUrl: this.feedConfig.baseUrl, path: this.feedConfig.feeds })
   }
 
   updateValue(feedId: string, feedValueRequest: FeedValueRequest): Promise<Feed> {

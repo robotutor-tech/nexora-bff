@@ -31,7 +31,7 @@ export class Webclient {
     const startTime = new Date().getTime()
     return this.axiosInstance
       .get<ReturnType>(url, {
-        headers: await this.parseHeaders(headers)
+        headers: this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -57,7 +57,7 @@ export class Webclient {
     const startTime = new Date().getTime()
     return this.axiosInstance
       .post<ReturnType>(url, body, {
-        headers: await this.parseHeaders(headers)
+        headers: this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -83,7 +83,7 @@ export class Webclient {
     const startTime = new Date().getTime()
     return this.axiosInstance
       .put<ReturnType>(url, body, {
-        headers: await this.parseHeaders(headers)
+        headers: this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -109,7 +109,7 @@ export class Webclient {
     const startTime = new Date().getTime()
     return this.axiosInstance
       .patch<ReturnType>(url, body, {
-        headers: await this.parseHeaders(headers)
+        headers: this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -134,7 +134,7 @@ export class Webclient {
     const startTime = new Date().getTime()
     return this.axiosInstance
       .delete<ReturnType>(url, {
-        headers: await this.parseHeaders(headers)
+        headers: this.parseHeaders(headers)
       })
       .then(response => {
         const endTime = new Date().getTime()
@@ -164,7 +164,7 @@ export class Webclient {
     return urlWithPathParams + (queryParamsInString ? `?${queryParamsInString}` : '')
   }
 
-  private async parseHeaders(headers: Document<string>): Promise<Document<string>> {
+  private parseHeaders(headers: Document<string>): Document<string> {
     const keysToRemove = ['Content-Length', 'content-length', 'Content-length']
     keysToRemove.forEach(keyToRemove => {
       if (keyToRemove in headers) {
@@ -172,7 +172,7 @@ export class Webclient {
       }
     })
 
-    const forwardedHeaders = await this.requestContextService.getForwardHeaders()
+    const forwardedHeaders = this.requestContextService.getForwardHeaders()
     return { ...forwardedHeaders, ...headers }
   }
 }

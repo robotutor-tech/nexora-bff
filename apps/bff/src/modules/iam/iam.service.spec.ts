@@ -1,11 +1,11 @@
 import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
-import { AuthService } from './auth.service'
+import { IamService } from './iam.service'
 import { Webclient, apiConfig } from '@shared'
 import type { TokenResponse, ValidatedUser } from './types/auth'
 
-describe('AuthService', () => {
-  let service: AuthService
+describe('IamService', () => {
+  let service: IamService
   let webclient: Webclient
 
   beforeEach(async () => {
@@ -17,10 +17,10 @@ describe('AuthService', () => {
     } as unknown as Webclient
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService, { provide: Webclient, useValue: webclient }]
+      providers: [IamService, { provide: Webclient, useValue: webclient }]
     }).compile()
 
-    service = module.get<AuthService>(AuthService)
+    service = module.get<IamService>(IamService)
   })
 
   it('should be defined', () => {
@@ -34,10 +34,10 @@ describe('AuthService', () => {
 
       jest.spyOn(webclient, 'post').mockResolvedValueOnce(tokens)
 
-      const result = await service.login(req)
+      const result = await service.authenticateUser(req)
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.login, body: req })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.authenticate, body: req })
       expect(result).toBe(tokens)
     })
   })
@@ -51,7 +51,7 @@ describe('AuthService', () => {
       const result = await service.validate()
 
       expect(webclient.get).toHaveBeenCalledTimes(1)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.validate })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.validate })
       expect(result).toBe(validated)
     })
   })
@@ -66,7 +66,7 @@ describe('AuthService', () => {
       const result = await service.actorLogin(req)
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.actorLogin, body: req })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.actorLogin, body: req })
       expect(result).toBe(tokens)
     })
   })
@@ -80,7 +80,7 @@ describe('AuthService', () => {
       const result = await service.refresh()
 
       expect(webclient.get).toHaveBeenCalledTimes(1)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.refresh })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.refresh })
       expect(result).toBe(tokens)
     })
   })

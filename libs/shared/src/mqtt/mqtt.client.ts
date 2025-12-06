@@ -10,7 +10,7 @@ export class MqttClient implements OnModuleInit, OnModuleDestroy {
   private callbacks: Record<string, MqttCallback[]> = {}
 
   onModuleInit(): void {
-    this.client = connect('mqtt://127.0.0.1:1883', MqttConfig)
+    this.client = connect(MqttConfig)
     this.client.on('connect', () => {
       const topics = Object.keys(this.callbacks).map(
         topic => `$share/${process.env.APPLICATION_NAME}/enriched/${topic}`

@@ -10,10 +10,14 @@ export class ZonesService {
   constructor(private readonly webclient: Webclient) {}
 
   create(zoneRequest: CreateZoneRequest): Promise<Zone> {
-    return this.webclient.post<Zone>({ baseUrl: this.zoneConfig.baseUrl, path: '', body: zoneRequest })
+    return this.webclient.post<Zone>({
+      baseUrl: this.zoneConfig.baseUrl,
+      path: this.zoneConfig.zones,
+      body: zoneRequest
+    })
   }
 
   getAllZones(): Promise<Zone[]> {
-    return this.webclient.get<Zone[]>({ baseUrl: this.zoneConfig.baseUrl, path: '' })
+    return this.webclient.get<Zone[]>({ baseUrl: this.zoneConfig.baseUrl, path: this.zoneConfig.zones })
   }
 }

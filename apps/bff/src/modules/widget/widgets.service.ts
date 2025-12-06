@@ -9,6 +9,6 @@ export class WidgetsService {
   constructor(private readonly webclient: Webclient) {}
 
   getAllWidgets(): Promise<Widget[]> {
-    return this.webclient.get<Widget[]>({ baseUrl: this.widgetConfig.baseUrl, path: '' })
+    return this.webclient.get<Widget[]>({ baseUrl: this.widgetConfig.baseUrl, path: this.widgetConfig.widgets })
   }
 }

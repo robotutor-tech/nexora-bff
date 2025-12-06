@@ -1,12 +1,12 @@
 import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
-import { AuthController } from './auth.controller'
-import { AuthService } from './auth.service'
+import { IamController } from './iam.controller'
+import { IamService } from './iam.service'
 import type { TokenResponse, ValidatedUser } from './types/auth'
 
-describe('AuthController', () => {
-  let controller: AuthController
-  let service: AuthService
+describe('IamController', () => {
+  let controller: IamController
+  let service: IamService
 
   beforeEach(async () => {
     jest.clearAllMocks()
@@ -16,14 +16,14 @@ describe('AuthController', () => {
       validate: jest.fn(),
       refresh: jest.fn(),
       actorLogin: jest.fn()
-    } as unknown as AuthService
+    } as unknown as IamService
 
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
-      providers: [{ provide: AuthService, useValue: service }]
+      controllers: [IamController],
+      providers: [{ provide: IamService, useValue: service }]
     }).compile()
 
-    controller = module.get<AuthController>(AuthController)
+    controller = module.get<IamController>(IamController)
   })
 
   it('should be defined', () => {
@@ -35,13 +35,13 @@ describe('AuthController', () => {
       const dto = { email: 'alice@example.com', password: 'Password1' }
       const tokens: TokenResponse = { token: 'jwt', refreshToken: 'rjwt' }
 
-      jest.spyOn(service, 'login').mockResolvedValueOnce(tokens)
+      jest.spyOn(service, 'authenticateUser').mockResolvedValueOnce(tokens)
 
-      const result = await controller.login(dto )
+      const result = await controller.authenticateAccount(dto )
 
       expect(result).toStrictEqual(tokens)
-      expect(service.login).toHaveBeenCalledTimes(1)
-      expect(service.login).toHaveBeenCalledWith(dto)
+      expect(service.authenticateUser).toHaveBeenCalledTimes(1)
+      expect(service.authenticateUser).toHaveBeenCalledWith(dto)
     })
   })
 

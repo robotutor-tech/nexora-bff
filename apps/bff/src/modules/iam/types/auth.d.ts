@@ -11,8 +11,7 @@ export type ValidatedUser<T extends PrincipalType = PrincipalType> = {
 }
 
 type PrincipalMap = {
-  SERVER: { serverId: string }
-  USER: { userId: string }
+  ACCOUNT: { accountId: string; type: 'HUMAN' | 'MACHINE' }
   ACTOR: { actorId: string; roleId: string }
 }
 

@@ -12,3 +12,4 @@ export type Device = {
 }
 
 export type RegisterDeviceResponse = { token: string; refreshToken: string }
+export type DeviceFirmwareResponse = { version: string; url: string }

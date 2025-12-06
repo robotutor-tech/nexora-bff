@@ -42,8 +42,8 @@ describe('Auth Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/auth/login').send(dto).expect(201)
       expect(res.body).toStrictEqual(tokens)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.auth.baseUrl,
-        path: apiConfig.auth.login,
+        baseUrl: apiConfig.iam.baseUrl,
+        path: apiConfig.iam.authenticate,
         body: dto
       })
     })
@@ -64,8 +64,8 @@ describe('Auth Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/auth/login/actor').send(dto).expect(201)
       expect(res.body).toStrictEqual(tokens)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.auth.baseUrl,
-        path: apiConfig.auth.actorLogin,
+        baseUrl: apiConfig.iam.baseUrl,
+        path: apiConfig.iam.actorLogin,
         body: dto
       })
     })
@@ -77,7 +77,7 @@ describe('Auth Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(payload)
       const res = await request(app.getHttpServer()).get('/auth/validate').expect(200)
       expect(res.body).toStrictEqual(payload)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.validate })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.validate })
     })
   })
 
@@ -87,7 +87,7 @@ describe('Auth Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(tokens)
       const res = await request(app.getHttpServer()).get('/auth/refresh').expect(200)
       expect(res.body).toStrictEqual(tokens)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.refresh })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.refresh })
     })
   })
 })

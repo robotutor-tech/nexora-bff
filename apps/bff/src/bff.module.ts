@@ -5,7 +5,7 @@ import { WidgetsModule } from './modules/widget/widgets.module'
 import { DevicesModule } from './modules/device/devices.module'
 import { FeedsModule } from './modules/feed/feeds.module'
 import { RuleModule } from './modules/rule/rule.module'
-import { AuthModule } from './modules/auth/auth.module'
+import { IamModule } from './modules/iam/iam.module'
 import { AutomationModule } from './modules/automation/automation.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
 import { BridgeModule } from './modules/bridges/bridge.module'
@@ -15,7 +15,7 @@ import { ActorModule } from './modules/actor/actor.module'
 @Module({
   imports: [
     ActorModule,
-    AuthModule,
+    IamModule,
     AutomationModule,
     BridgeModule,
     DevicesModule,

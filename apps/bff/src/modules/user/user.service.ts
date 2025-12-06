@@ -6,13 +6,14 @@ import { User } from '@shared/cache/cache'
 @Injectable()
 export class UserService {
   private readonly userConfig = apiConfig.user
+  private readonly orchestrationConfig = apiConfig.orchestration
 
   constructor(private readonly webclient: Webclient) {}
 
-  registerUser(userRequest: RegisterUserRequest): Promise<User> {
+  async registerUser(userRequest: RegisterUserRequest): Promise<User> {
     return this.webclient.post<User>({
-      baseUrl: this.userConfig.baseUrl,
-      path: '',
+      baseUrl: this.orchestrationConfig.baseUrl,
+      path: this.orchestrationConfig.users,
       body: userRequest
     })
   }

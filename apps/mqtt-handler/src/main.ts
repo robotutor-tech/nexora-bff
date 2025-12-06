@@ -4,7 +4,7 @@ import { AppModule } from './mqtt-handler.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('api')
-  await app.listen(process.env.port ?? 3003)
+  await app.listen(process.env.port ?? 3002)
 }
 
 bootstrap()

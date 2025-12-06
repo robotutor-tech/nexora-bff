@@ -37,7 +37,7 @@ describe('DevicesService', () => {
       const result = await service.createDeviceInvitation(req )
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.deviceInvitation, body: req })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.deviceInvitation, body: req })
       expect(result).toBe(invitation)
     })
   })
@@ -78,7 +78,7 @@ describe('DevicesService', () => {
       const result = await service.getAllDevicesInvitations()
 
       expect(webclient.get).toHaveBeenCalledTimes(1)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.auth.baseUrl, path: apiConfig.auth.deviceInvitation })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.deviceInvitation })
       expect(result).toBe(invitations)
     })
   })

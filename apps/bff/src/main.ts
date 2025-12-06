@@ -8,8 +8,8 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'bff',
-        brokers: ['localhost:9092']
+        clientId: 'nexora-bff',
+        brokers: [process.env.KAFKA_URL ?? 'localhost:9092']
       },
       consumer: {
         groupId: 'bff-ui-consumer-group'

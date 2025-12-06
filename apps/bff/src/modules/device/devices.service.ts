@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Device, DeviceInvitation, RegisterDeviceResponse } from './types/device'
+import { Device, DeviceFirmwareResponse, DeviceInvitation, RegisterDeviceResponse } from './types/device'
 import { CreateDeviceInvitationRequest } from './dto/create-device-invitation.dto'
 import { apiConfig, Webclient } from '@shared'
 import { RegisterDeviceRequest } from './dto/register-device.dto'
@@ -7,7 +7,7 @@ import { RegisterDeviceRequest } from './dto/register-device.dto'
 @Injectable()
 export class DevicesService {
   private readonly deviceConfig = apiConfig.device
-  private readonly authConfig = apiConfig.auth
+  private readonly authConfig = apiConfig.iam
 
   constructor(private readonly webclient: Webclient) {}
 
@@ -20,7 +20,7 @@ export class DevicesService {
   }
 
   getAllDevices(): Promise<Device[]> {
-    return this.webclient.get<Device[]>({ baseUrl: this.deviceConfig.baseUrl, path: '' })
+    return this.webclient.get<Device[]>({ baseUrl: this.deviceConfig.baseUrl, path: this.deviceConfig.devices })
   }
 
   getAllDevicesInvitations(): Promise<DeviceInvitation[]> {
@@ -33,7 +33,7 @@ export class DevicesService {
   registerDevice(request: RegisterDeviceRequest): Promise<RegisterDeviceResponse> {
     return this.webclient.post<RegisterDeviceResponse>({
       baseUrl: this.deviceConfig.baseUrl,
-      path: '',
+      path: this.deviceConfig.devices,
       body: request
     })
   }
@@ -42,6 +42,13 @@ export class DevicesService {
     return this.webclient.get<Device>({
       baseUrl: this.deviceConfig.baseUrl,
       path: this.deviceConfig.me
+    })
+  }
+
+  getDeviceFirmware(): Promise<DeviceFirmwareResponse> {
+    return this.webclient.get<DeviceFirmwareResponse>({
+      baseUrl: this.deviceConfig.baseUrl,
+      path: this.deviceConfig.deviceFirmware
     })
   }
 }
