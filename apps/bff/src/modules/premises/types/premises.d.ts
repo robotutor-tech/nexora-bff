@@ -1,21 +1,13 @@
 export type Premises = {
   premisesId: string
   name: string
+  address: {
+    street: string
+    city: string
+    state: string
+    country: string
+    postalCode: string
+  }
   createdAt: Date
+  updatedAt: Date
 }
-
-export type PremisesWithActors = Premises & { actor: ActorView[] }
-
-export type ActorView = {
-  actorId: string
-  premisesId: string
-  identifier: { id: string; type: 'USER' }
-  state: 'ACTIVE' | 'INACTIVE'
-  roles: Role[]
-}
-
-export type Role = {
-  roleId: string
-  name: string
-}
-

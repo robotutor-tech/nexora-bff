@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, UsePipes } from '@nestjs/common'
 import { PremisesService } from './premises.service'
 import { CreatePremisesDto } from './dto/create-premises.dto'
-import { Premises, PremisesWithActors } from './types/premises'
+import { Premises } from './types/premises'
 import { CreatePremisesSchema } from './schema/createPremises.schema'
 import { PremisesIdSchema } from './schema/premisesId.schema'
 import { ZodValidationPipe } from '@shared'
@@ -12,12 +12,12 @@ export class PremisesController {
 
   @Post()
   @UsePipes(new ZodValidationPipe(CreatePremisesSchema))
-  createPremises(@Body() createPremisesDto: CreatePremisesDto): Promise<PremisesWithActors> {
+  createPremises(@Body() createPremisesDto: CreatePremisesDto): Promise<Premises> {
     return this.premisesService.createPremises(createPremisesDto)
   }
 
   @Get()
-  getAllPremises(): Promise<PremisesWithActors[]> {
+  getAllPremises(): Promise<Premises[]> {
     return this.premisesService.getAllPremises()
   }
 
