@@ -63,10 +63,10 @@ describe('IamService', () => {
 
       jest.spyOn(webclient, 'post').mockResolvedValueOnce(tokens)
 
-      const result = await service.actorLogin(req)
+      const result = await service.authenticateActor(req)
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.actorLogin, body: req })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.authenticateActor, body: req })
       expect(result).toBe(tokens)
     })
   })

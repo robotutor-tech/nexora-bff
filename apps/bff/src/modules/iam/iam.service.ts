@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { TokenResponse, ValidatedUser } from './types/auth'
 import { AuthenticateUserRequest } from './dto/authenticate-user.dto'
 import { apiConfig, Webclient } from '@shared'
-import { ActorLoginRequest } from './dto/actor-login.dto'
+import { AuthenticateActorRequest } from './dto/authenticate-actor.dto'
 import { DeviceLoginRequest } from './dto/device-login.dto'
 
 @Injectable()
@@ -31,11 +31,11 @@ export class IamService {
     })
   }
 
-  actorLogin(actorLoginRequest: ActorLoginRequest): Promise<TokenResponse> {
+  authenticateActor(authenticateActorRequest: AuthenticateActorRequest): Promise<TokenResponse> {
     return this.webclient.post<TokenResponse>({
       baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.actorLogin,
-      body: actorLoginRequest
+      path: this.iamConfig.authenticateActor,
+      body: authenticateActorRequest
     })
   }
 

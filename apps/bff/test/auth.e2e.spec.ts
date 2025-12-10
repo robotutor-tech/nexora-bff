@@ -65,7 +65,7 @@ describe('Auth Module (e2e)', () => {
       expect(res.body).toStrictEqual(tokens)
       expect(webclient.post).toHaveBeenCalledWith({
         baseUrl: apiConfig.iam.baseUrl,
-        path: apiConfig.iam.actorLogin,
+        path: apiConfig.iam.authenticateActor,
         body: dto
       })
     })

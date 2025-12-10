@@ -80,13 +80,13 @@ describe('IamController', () => {
       const dto = { actorId: 'a-1', roleId: 'r-1' }
       const tokens: TokenResponse = { token: 'jwt3', refreshToken: 'rjwt3' }
 
-      jest.spyOn(service, 'actorLogin').mockResolvedValueOnce(tokens)
+      jest.spyOn(service, 'authenticateActor').mockResolvedValueOnce(tokens)
 
       const result = await controller.actorLogin(dto )
 
       expect(result).toStrictEqual(tokens)
-      expect(service.actorLogin).toHaveBeenCalledTimes(1)
-      expect(service.actorLogin).toHaveBeenCalledWith(dto)
+      expect(service.authenticateActor).toHaveBeenCalledTimes(1)
+      expect(service.authenticateActor).toHaveBeenCalledWith(dto)
     })
   })
 })

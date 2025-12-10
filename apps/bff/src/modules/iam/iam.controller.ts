@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common'
 import { IamService } from './iam.service'
 import { TokenResponse, ValidatedUser } from './types/auth'
 import { AuthenticateUserDto } from './dto/authenticate-user.dto'
-import { ActorLoginDto } from './dto/actor-login.dto'
+import { AuthenticateActorDto } from './dto/authenticate-actor.dto'
 import { AuthenticateUserSchema } from './schema/authenticateUserSchema'
-import { ActorLoginSchema } from './schema/actorLoginSchema'
+import { AuthenticateActorSchema } from './schema/authenticateActorSchema'
 import { ZodValidationPipe } from '@shared'
 import { DeviceLoginSchema } from './schema/deviceLoginSchema'
 import { DeviceLoginDto } from './dto/device-login.dto'
@@ -36,8 +36,8 @@ export class IamController {
   }
 
   @Post('login/actor')
-  @UsePipes(new ZodValidationPipe(ActorLoginSchema))
-  actorLogin(@Body() actorLoginDto: ActorLoginDto): Promise<TokenResponse> {
-    return this.iamService.actorLogin(actorLoginDto)
+  @UsePipes(new ZodValidationPipe(AuthenticateActorSchema))
+  actorLogin(@Body() authenticateActorDto: AuthenticateActorDto): Promise<TokenResponse> {
+    return this.iamService.authenticateActor(authenticateActorDto)
   }
 }

@@ -9,9 +9,9 @@ export const apiConfig = {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
     authenticate: '/iam/accounts/authenticate',
     deviceLogin: '/auth/login/device',
-    actorLogin: '/auth/login/actor',
-    validate: '/iam/tokens/validate',
-    refresh: '/auth/refresh',
+    authenticateActor: '/iam/actors/authenticate',
+    validate: '/iam/sessions/validate',
+    refresh: '/iam/sessions/refresh',
     deviceInvitation: '/auth/invitations'
   },
   automation: {
