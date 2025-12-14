@@ -10,6 +10,7 @@ export const apiConfig = {
     authenticate: '/iam/accounts/authenticate',
     deviceLogin: '/auth/login/device',
     authenticateActor: '/iam/actors/authenticate',
+    actor: '/iam/actors/me',
     validate: '/iam/sessions/validate',
     refresh: '/iam/sessions/refresh',
     deviceInvitation: '/auth/invitations'

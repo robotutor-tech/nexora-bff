@@ -1,7 +1,7 @@
 import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
 import { ActorController } from './actor.controller'
-import { ActorService } from './actor.service'
+import { ActorService } from '../iam/actor.service'
 import type { Actor } from '@shared/cache/cache'
 
 describe('ActorController', () => {

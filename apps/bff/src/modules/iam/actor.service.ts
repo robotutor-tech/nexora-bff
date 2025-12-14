@@ -4,11 +4,11 @@ import { Actor } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorService {
-  private readonly actorConfig = apiConfig.actor
+  private readonly iamConfig = apiConfig.iam
 
   constructor(private readonly webclient: Webclient) {}
 
   getCurrentActor(): Promise<Actor> {
-    return this.webclient.get<Actor>({ baseUrl: this.actorConfig.baseUrl, path: this.actorConfig.me })
+    return this.webclient.get<Actor>({ baseUrl: this.iamConfig.baseUrl, path: this.iamConfig.actor })
   }
 }

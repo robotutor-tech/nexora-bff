@@ -1,6 +1,6 @@
 import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
-import { ActorService } from './actor.service'
+import { ActorService } from '../iam/actor.service'
 import { Webclient, apiConfig } from '@shared'
 import type { Actor } from './types/actor'
 
