@@ -2,7 +2,7 @@ import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
 import { DevicesController } from './devices.controller'
 import { DevicesService } from './devices.service'
-import type { Device, DeviceInvitation } from './types/device'
+import type { Device, RegisterDeviceResponse } from './types/device'
 
 describe('DevicesController', () => {
   let controller: DevicesController
@@ -32,20 +32,20 @@ describe('DevicesController', () => {
   describe('createDeviceInvitation', () => {
     it('should delegate to devicesService.createDeviceInvitation and return the invitation', async () => {
       const dto = { name: 'Sensor', zoneId: 'z-1' }
-      const invitation: DeviceInvitation = {
+      const invitation: RegisterDeviceResponse = {
         token: 'tkn',
         name: 'Sensor',
         invitationId: 'i-1',
         modelNo: 'M-100'
       }
 
-      jest.spyOn(service, 'createDeviceInvitation').mockResolvedValueOnce(invitation)
+      jest.spyOn(service, 'registerDevice').mockResolvedValueOnce(invitation)
 
-      const result = await controller.createDeviceInvitation(dto )
+      const result = await controller.registerDevice(dto )
 
       expect(result).toStrictEqual(invitation)
-      expect(service.createDeviceInvitation).toHaveBeenCalledTimes(1)
-      expect(service.createDeviceInvitation).toHaveBeenCalledWith(dto)
+      expect(service.registerDevice).toHaveBeenCalledTimes(1)
+      expect(service.registerDevice).toHaveBeenCalledWith(dto)
     })
   })
 
@@ -76,7 +76,7 @@ describe('DevicesController', () => {
 
   describe('getAllDevicesInvitations', () => {
     it('should delegate to devicesService.getAllDevicesInvitations and return invitations', async () => {
-      const invitations: DeviceInvitation[] = [
+      const invitations: RegisterDeviceResponse[] = [
         { token: 'tkn', name: 'Sensor', invitationId: 'i-1', modelNo: 'M-100' }
       ]
 

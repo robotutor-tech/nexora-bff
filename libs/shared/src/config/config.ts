@@ -44,6 +44,7 @@ export const apiConfig = {
   orchestration: {
     baseUrl: `${process.env.ORCHESTRATION_SERVICE_BASE_URL ?? 'http://localhost:9001'}`,
     users: '/orchestration/users/register',
+    devices: '/orchestration/devices/register',
     me: '/users/me',
     premises: '/orchestration/premises'
   },

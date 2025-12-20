@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common'
-import { Device, DeviceFirmwareResponse, DeviceInvitation, RegisterDeviceResponse } from './types/device'
-import { CreateDeviceInvitationRequest } from './dto/create-device-invitation.dto'
-import { apiConfig, Webclient } from '@shared'
+import { Device, DeviceFirmwareResponse, RegisterDeviceResponse } from './types/device'
 import { RegisterDeviceRequest } from './dto/register-device.dto'
+import { apiConfig, Webclient } from '@shared'
 
 @Injectable()
 export class DevicesService {
   private readonly deviceConfig = apiConfig.device
-  private readonly authConfig = apiConfig.iam
+  private readonly orchestrationConfig = apiConfig.orchestration
 
   constructor(private readonly webclient: Webclient) {}
 
-  createDeviceInvitation(deviceInvitationRequest: CreateDeviceInvitationRequest): Promise<DeviceInvitation> {
-    return this.webclient.post<DeviceInvitation>({
-      baseUrl: this.authConfig.baseUrl,
-      path: this.authConfig.deviceInvitation,
-      body: deviceInvitationRequest
+  registerDevice(registerDeviceRequest: RegisterDeviceRequest): Promise<RegisterDeviceResponse> {
+    return this.webclient.post<RegisterDeviceResponse>({
+      baseUrl: this.orchestrationConfig.baseUrl,
+      path: this.orchestrationConfig.devices,
+      body: registerDeviceRequest
     })
   }
 
@@ -23,20 +22,20 @@ export class DevicesService {
     return this.webclient.get<Device[]>({ baseUrl: this.deviceConfig.baseUrl, path: this.deviceConfig.devices })
   }
 
-  getAllDevicesInvitations(): Promise<DeviceInvitation[]> {
-    return this.webclient.get<DeviceInvitation[]>({
-      baseUrl: this.authConfig.baseUrl,
-      path: this.authConfig.deviceInvitation
-    })
-  }
+  // getAllDevicesInvitations(): Promise<RegisterDeviceResponse[]> {
+  //   return this.webclient.get<RegisterDeviceResponse[]>({
+  //     baseUrl: this.orchestrationConfig.baseUrl,
+  //     path: this.orchestrationConfig.deviceInvitation
+  //   })
+  // }
 
-  registerDevice(request: RegisterDeviceRequest): Promise<RegisterDeviceResponse> {
-    return this.webclient.post<RegisterDeviceResponse>({
-      baseUrl: this.deviceConfig.baseUrl,
-      path: this.deviceConfig.devices,
-      body: request
-    })
-  }
+  // registerDevice(request: RegisterDeviceRequest): Promise<RegisterDeviceResponse> {
+  //   return this.webclient.post<RegisterDeviceResponse>({
+  //     baseUrl: this.deviceConfig.baseUrl,
+  //     path: this.deviceConfig.devices,
+  //     body: request
+  //   })
+  // }
 
   getCurrentDevice(): Promise<Device> {
     return this.webclient.get<Device>({

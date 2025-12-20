@@ -1,9 +1,9 @@
 import { z } from 'zod'
+import { NameSchema } from '../../../shared/schema/name.schema'
 
 export const RegisterDeviceSchema = z
   .object({
-    serialNo: z.string().nonempty('Serial no is required'),
-    modelNo: z.string().nonempty('Model no is required'),
-    type: z.string().nonempty('Type is required')
+    name: NameSchema,
+    zoneId: z.string()
   })
   .strict()

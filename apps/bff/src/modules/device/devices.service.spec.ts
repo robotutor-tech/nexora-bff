@@ -2,7 +2,7 @@ import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
 import { DevicesService } from './devices.service'
 import { Webclient, apiConfig } from '@shared'
-import type { Device, DeviceInvitation } from './types/device'
+import type { Device, RegisterDeviceResponse } from './types/device'
 
 describe('DevicesService', () => {
   let service: DevicesService
@@ -30,11 +30,11 @@ describe('DevicesService', () => {
   describe('createDeviceInvitation', () => {
     it('should POST to auth deviceInvitation path and return invitation', async () => {
       const req = { name: 'Sensor', zoneId: 'z-1' }
-      const invitation: DeviceInvitation = { token: 'tkn', name: 'Sensor', invitationId: 'i-1', modelNo: 'M-100' }
+      const invitation: RegisterDeviceResponse = { token: 'tkn', name: 'Sensor', invitationId: 'i-1', modelNo: 'M-100' }
 
       jest.spyOn(webclient, 'post').mockResolvedValueOnce(invitation)
 
-      const result = await service.createDeviceInvitation(req )
+      const result = await service.registerDevice(req )
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
       expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.deviceInvitation, body: req })
@@ -69,7 +69,7 @@ describe('DevicesService', () => {
 
   describe('getAllDevicesInvitations', () => {
     it('should GET from auth deviceInvitation path and return invitations', async () => {
-      const invitations: DeviceInvitation[] = [
+      const invitations: RegisterDeviceResponse[] = [
         { token: 'tkn', name: 'Sensor', invitationId: 'i-1', modelNo: 'M-100' }
       ]
 

@@ -1,4 +1,3 @@
-export type DeviceInvitation = { token: string; name: string; invitationId: string; modelNo: string }
 export type Device = {
   deviceId: string
   premisesId: string
@@ -11,5 +10,16 @@ export type Device = {
   os?: { name: string; version: string }
 }
 
-export type RegisterDeviceResponse = { token: string; refreshToken: string }
+export type RegisterDeviceResponse = {
+  deviceId: string
+  secret: string
+  premisesId: string
+  name: string
+  zoneId: string
+  registeredBy: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+// export type RegisterDeviceResponse = { token: string; refreshToken: string }
 export type DeviceFirmwareResponse = { version: string; url: string }
