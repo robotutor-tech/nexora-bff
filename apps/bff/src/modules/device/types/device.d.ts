@@ -12,6 +12,7 @@ export type Device = {
 
 export type RegisterDeviceResponse = {
   deviceId: string
+  credentialId: string
   secret: string
   premisesId: string
   name: string

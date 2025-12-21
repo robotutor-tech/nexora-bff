@@ -12,8 +12,8 @@ export class PremisesService {
 
   createPremises(createRequest: CreatePremisesRequest): Promise<Premises> {
     return this.webclient.post<Premises>({
-      baseUrl: this.premisesConfig.baseUrl,
-      path: this.premisesConfig.premises,
+      baseUrl: this.orchestrationConfig.baseUrl,
+      path: this.orchestrationConfig.premisesRegister,
       body: createRequest
     })
   }

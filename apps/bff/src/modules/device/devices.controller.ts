@@ -22,11 +22,6 @@ export class DevicesController {
     return this.devicesService.getAllDevices()
   }
 
-  // @Get('invitations')
-  // getAllDevicesInvitations(): Promise<RegisterDeviceResponse[]> {
-  //   return this.devicesService.getAllDevicesInvitations()
-  // }
-
   // @Post('register')
   // @UsePipes(new ZodValidationPipe(ActivateDeviceSchema))
   // registerDevices(@Body() registerDeviceDto: RegisterDeviceDto): Promise<RegisterDeviceResponse> {

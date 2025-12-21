@@ -4,10 +4,12 @@ import { IamController } from './iam.controller'
 import { WebclientModule } from '@shared'
 import { ActorController } from './actor.controller'
 import { ActorService } from './actor.service'
+import { AccountController } from './account.controller'
+import { AccountService } from './account.service'
 
 @Module({
   imports: [WebclientModule],
-  controllers: [IamController, ActorController],
-  providers: [IamService, ActorService]
+  controllers: [IamController, ActorController, AccountController],
+  providers: [IamService, ActorService, AccountService]
 })
 export class IamModule {}

@@ -8,6 +8,7 @@ export const apiConfig = {
   iam: {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
     authenticate: '/iam/accounts/authenticate',
+    credentialsRotate: '/iam/accounts/{accountId}/credentials/rotate',
     deviceLogin: '/auth/login/device',
     authenticateActor: '/iam/actors/authenticate',
     actor: '/iam/actors/me',
@@ -30,7 +31,7 @@ export const apiConfig = {
     devices: '/devices',
     me: '/devices/me',
     health: '/devices/health',
-    deviceFirmware: '/devices/firmware',
+    deviceFirmware: '/devices/firmware'
   },
   entitlement: {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
@@ -46,7 +47,8 @@ export const apiConfig = {
     users: '/orchestration/users/register',
     devices: '/orchestration/devices/register',
     me: '/users/me',
-    premises: '/orchestration/premises'
+    premises: '/orchestration/premises',
+    premisesRegister: '/orchestration/premises/register'
   },
   premises: {
     baseUrl: process.env.PREMISES_SERVICE_BASE_URL ?? 'http://localhost:9001',

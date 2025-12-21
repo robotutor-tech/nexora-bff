@@ -41,7 +41,7 @@ describe('DevicesController', () => {
 
       jest.spyOn(service, 'registerDevice').mockResolvedValueOnce(invitation)
 
-      const result = await controller.registerDevice(dto )
+      const result = await controller.registerDevice(dto)
 
       expect(result).toStrictEqual(invitation)
       expect(service.registerDevice).toHaveBeenCalledTimes(1)
@@ -82,7 +82,7 @@ describe('DevicesController', () => {
 
       jest.spyOn(service, 'getAllDevicesInvitations').mockResolvedValueOnce(invitations)
 
-      const result = await controller.getAllDevicesInvitations()
+      const result = await controller.generateCredentials()
 
       expect(result).toStrictEqual(invitations)
       expect(service.getAllDevicesInvitations).toHaveBeenCalledTimes(1)
