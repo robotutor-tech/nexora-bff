@@ -48,13 +48,13 @@ describe('PremisesController', () => {
         actor: [],
       }
 
-      jest.spyOn(service, 'createPremises').mockResolvedValueOnce(resp)
+      jest.spyOn(service, 'registerPremises').mockResolvedValueOnce(resp)
 
       const result = await controller.createPremises(dto )
 
       expect(result).toStrictEqual(resp)
-      expect(service.createPremises).toHaveBeenCalledTimes(1)
-      expect(service.createPremises).toHaveBeenCalledWith(dto)
+      expect(service.registerPremises).toHaveBeenCalledTimes(1)
+      expect(service.registerPremises).toHaveBeenCalledWith(dto)
     })
   })
 

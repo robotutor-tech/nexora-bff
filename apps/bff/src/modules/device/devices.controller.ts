@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, UsePipes, Res } from '@nestjs/common'
-import { DevicesService } from './devices.service'
-import { Device, DeviceFirmwareResponse, RegisterDeviceResponse } from './types/device'
+import { DeviceService } from './device.service'
+import { Device, DeviceFirmwareResponse, DeviceResponse } from './types/device'
 import { ZodValidationPipe } from '@shared'
 import { RegisterDeviceDto } from './dto/register-device.dto'
 import type { Response } from 'express'
@@ -9,11 +9,11 @@ import { RegisterDeviceSchema } from './schema/registerDevice.schema'
 
 @Controller('devices')
 export class DevicesController {
-  constructor(private readonly devicesService: DevicesService) {}
+  constructor(private readonly devicesService: DeviceService) {}
 
   @Post('register')
   @UsePipes(new ZodValidationPipe(RegisterDeviceSchema))
-  registerDevice(@Body() registerDeviceDto: RegisterDeviceDto): Promise<RegisterDeviceResponse> {
+  registerDevice(@Body() registerDeviceDto: RegisterDeviceDto): Promise<DeviceResponse> {
     return this.devicesService.registerDevice(registerDeviceDto)
   }
 
@@ -21,12 +21,6 @@ export class DevicesController {
   getAllDevices(): Promise<Device[]> {
     return this.devicesService.getAllDevices()
   }
-
-  // @Post('register')
-  // @UsePipes(new ZodValidationPipe(ActivateDeviceSchema))
-  // registerDevices(@Body() registerDeviceDto: RegisterDeviceDto): Promise<RegisterDeviceResponse> {
-  //   return this.devicesService.registerDevice(registerDeviceDto)
-  // }
 
   @Get('me')
   getDevice(): Promise<Device> {

@@ -1,4 +1,4 @@
-import { AuthenticateActorSchema } from './authenticateActorSchema'
+import { AuthenticateActorSchema } from './authenticateActor.schema'
 
 describe('ActorLoginSchema', () => {
   const valid = { actorId: 'a-1', roleId: 'r-1' }

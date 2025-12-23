@@ -1,6 +1,6 @@
 import { createZodDto } from 'nestjs-zod'
 import type { z } from 'zod'
-import { DeviceLoginSchema } from '../schema/deviceLoginSchema'
+import { DeviceLoginSchema } from '../schema/deviceLogin.schema'
 
 export class DeviceLoginDto extends createZodDto(DeviceLoginSchema) {}
 

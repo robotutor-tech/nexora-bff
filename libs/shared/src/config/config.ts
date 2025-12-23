@@ -8,10 +8,15 @@ export const apiConfig = {
   iam: {
     baseUrl: process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001',
     authenticate: '/iam/accounts/authenticate',
+    accountRegister: '/iam/accounts/register',
+    machineAccountRegister: '/iam/accounts/register/machine',
+    premisesOwnerRegister: '/iam/premises-owners/register',
     credentialsRotate: '/iam/accounts/{accountId}/credentials/rotate',
     deviceLogin: '/auth/login/device',
     authenticateActor: '/iam/actors/authenticate',
+    actors: '/iam/actors',
     actor: '/iam/actors/me',
+    machineActor: '/iam/actors/machine',
     validate: '/iam/sessions/validate',
     refresh: '/iam/sessions/refresh',
     deviceInvitation: '/auth/invitations'
@@ -46,6 +51,7 @@ export const apiConfig = {
     baseUrl: `${process.env.ORCHESTRATION_SERVICE_BASE_URL ?? 'http://localhost:9001'}`,
     users: '/orchestration/users/register',
     devices: '/orchestration/devices/register',
+    deviceActor: '/orchestration/devices/actors/register',
     me: '/users/me',
     premises: '/orchestration/premises',
     premisesRegister: '/orchestration/premises/register'
@@ -62,7 +68,7 @@ export const apiConfig = {
   },
   user: {
     baseUrl: `${process.env.AUTH_SERVICE_BASE_URL ?? 'http://localhost:9001'}`,
-    users: '/users',
+    userRegister: '/users/register',
     me: '/users/me'
   },
   widget: { baseUrl: process.env.WIDGET_SERVICE_BASE_URL ?? 'http://localhost:9001', widgets: '/widgets' },

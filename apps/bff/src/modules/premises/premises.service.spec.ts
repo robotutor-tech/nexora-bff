@@ -48,7 +48,7 @@ describe('PremisesService', () => {
 
       jest.spyOn(webclient, 'post').mockResolvedValueOnce(resp)
 
-      const result = await service.createPremises(req )
+      const result = await service.registerPremises(req )
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
       expect(webclient.post).toHaveBeenCalledWith({

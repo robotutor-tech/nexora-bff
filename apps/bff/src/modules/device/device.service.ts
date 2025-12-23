@@ -1,21 +1,35 @@
 import { Injectable } from '@nestjs/common'
-import { Device, DeviceFirmwareResponse, RegisterDeviceResponse } from './types/device'
+import { Device, DeviceFirmwareResponse, DeviceResponse } from './types/device'
 import { RegisterDeviceRequest } from './dto/register-device.dto'
 import { apiConfig, Webclient } from '@shared'
+import { randomUUID } from 'node:crypto'
+import { Account } from '../iam/types/account'
 
 @Injectable()
-export class DevicesService {
+export class DeviceService {
   private readonly deviceConfig = apiConfig.device
-  private readonly orchestrationConfig = apiConfig.orchestration
+  private readonly iamConfig = apiConfig.iam
 
   constructor(private readonly webclient: Webclient) {}
 
-  registerDevice(registerDeviceRequest: RegisterDeviceRequest): Promise<RegisterDeviceResponse> {
-    return this.webclient.post<RegisterDeviceResponse>({
-      baseUrl: this.orchestrationConfig.baseUrl,
-      path: this.orchestrationConfig.devices,
-      body: registerDeviceRequest
+  async registerDevice(registerDeviceRequest: RegisterDeviceRequest): Promise<DeviceResponse> {
+    const payload = {
+      credentialId: randomUUID(),
+      secret: (randomUUID() + randomUUID()).replaceAll('-', ''),
+      kind: 'API_SECRET',
+      type: 'MACHINE'
+    }
+    const account = await this.webclient.post<Account>({
+      baseUrl: this.iamConfig.baseUrl,
+      path: this.iamConfig.machineAccountRegister,
+      body: payload
     })
+    const device = await this.webclient.post<Device>({
+      baseUrl: this.deviceConfig.baseUrl,
+      path: this.deviceConfig.devices,
+      body: { ...registerDeviceRequest, accountId: account.accountId }
+    })
+    return { ...device, credentialId: payload.credentialId, secret: payload.secret }
   }
 
   getAllDevices(): Promise<Device[]> {

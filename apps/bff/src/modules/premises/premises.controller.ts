@@ -13,7 +13,7 @@ export class PremisesController {
   @Post()
   @UsePipes(new ZodValidationPipe(CreatePremisesSchema))
   createPremises(@Body() createPremisesDto: CreatePremisesDto): Promise<Premises> {
-    return this.premisesService.createPremises(createPremisesDto)
+    return this.premisesService.registerPremises(createPremisesDto)
   }
 
   @Get()
