@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import { DeviceService } from './device.service'
-import { DevicesController } from './devices.controller'
+import { DeviceController } from './device.controller'
 import { WebclientModule } from '@shared'
 
 @Module({
   imports: [WebclientModule],
-  controllers: [DevicesController],
+  controllers: [DeviceController],
   providers: [DeviceService],
   exports: [DeviceService]
 })

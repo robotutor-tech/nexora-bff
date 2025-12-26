@@ -30,6 +30,10 @@ export class PremisesService {
       baseUrl: this.iamConfig.baseUrl,
       path: this.iamConfig.actors
     })
+    if (actors.length === 0) {
+      return []
+    }
+
     const queryParams = new URLSearchParams()
     actors.forEach(actor => {
       queryParams.append('premisesIds', actor.premisesId)

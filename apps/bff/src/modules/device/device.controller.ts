@@ -6,9 +6,11 @@ import { RegisterDeviceDto } from './dto/register-device.dto'
 import type { Response } from 'express'
 import * as path from 'path'
 import { RegisterDeviceSchema } from './schema/registerDevice.schema'
+import { CommissionDeviceSchema } from './schema/commissionDevice.schema'
+import { CommissionDeviceDto } from './dto/commission-device.dto'
 
 @Controller('devices')
-export class DevicesController {
+export class DeviceController {
   constructor(private readonly devicesService: DeviceService) {}
 
   @Post('register')
@@ -25,6 +27,12 @@ export class DevicesController {
   @Get('me')
   getDevice(): Promise<Device> {
     return this.devicesService.getCurrentDevice()
+  }
+
+  @Post('commission')
+  @UsePipes(new ZodValidationPipe(CommissionDeviceSchema))
+  commissionDevice(@Body() commissionDeviceDto: CommissionDeviceDto): Promise<Device> {
+    return this.devicesService.commission(commissionDeviceDto)
   }
 
   @Get('firmware')

@@ -35,6 +35,7 @@ export const apiConfig = {
     baseUrl: process.env.DEVICE_SERVICE_BASE_URL ?? 'http://localhost:9001',
     devices: '/devices',
     me: '/devices/me',
+    commission: '/devices/commission',
     health: '/devices/health',
     deviceFirmware: '/devices/firmware'
   },

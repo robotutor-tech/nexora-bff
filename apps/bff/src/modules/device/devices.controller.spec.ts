@@ -1,11 +1,11 @@
 // import type { TestingModule } from '@nestjs/testing'
 // import { Test } from '@nestjs/testing'
-// import { DevicesController } from './devices.controller'
+// import { DeviceController } from './devices.controller'
 // import { DevicesService } from './devices.service'
 // import type { Device, RegisterDeviceResponse } from './types/device'
 //
-// describe('DevicesController', () => {
-//   let controller: DevicesController
+// describe('DeviceController', () => {
+//   let controller: DeviceController
 //   let service: DevicesService
 //
 //   beforeEach(async () => {
@@ -18,11 +18,11 @@
 //     } as unknown as DevicesService
 //
 //     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [DevicesController],
+//       controllers: [DeviceController],
 //       providers: [{ provide: DevicesService, useValue: service }]
 //     }).compile()
 //
-//     controller = module.get<DevicesController>(DevicesController)
+//     controller = module.get<DeviceController>(DeviceController)
 //   })
 //
 //   it('should be defined', () => {
