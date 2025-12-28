@@ -16,8 +16,8 @@ export class AccountController {
     return this.accountService.authenticate(authenticateAccountDto)
   }
 
-  @Patch(':accountId/credentials/rotate')
-  rotateCredentials(@Param('accountId') accountId: string): Promise<DeviceCredentials> {
-    return this.accountService.rotateCredentials(accountId)
+  @Patch('principal/:principalId/credentials/rotate')
+  rotateCredentials(@Param('principalId') principalId: string): Promise<DeviceCredentials> {
+    return this.accountService.rotateCredentials(principalId)
   }
 }

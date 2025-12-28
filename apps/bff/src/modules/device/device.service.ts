@@ -14,22 +14,24 @@ export class DeviceService {
   constructor(private readonly webclient: Webclient) {}
 
   async registerDevice(registerDeviceRequest: RegisterDeviceRequest): Promise<DeviceResponse> {
+    const device = await this.webclient.post<Device>({
+      baseUrl: this.deviceConfig.baseUrl,
+      path: this.deviceConfig.devices,
+      body: registerDeviceRequest
+    })
     const payload = {
       credentialId: randomUUID(),
       secret: (randomUUID() + randomUUID()).replaceAll('-', ''),
       kind: 'API_SECRET',
-      type: 'MACHINE'
+      type: 'MACHINE',
+      principalId: device.deviceId
     }
-    const account = await this.webclient.post<Account>({
+    await this.webclient.post<Account>({
       baseUrl: this.iamConfig.baseUrl,
       path: this.iamConfig.machineAccountRegister,
       body: payload
     })
-    const device = await this.webclient.post<Device>({
-      baseUrl: this.deviceConfig.baseUrl,
-      path: this.deviceConfig.devices,
-      body: { ...registerDeviceRequest, accountId: account.accountId }
-    })
+
     return { ...device, credentialId: payload.credentialId, secret: payload.secret }
   }
 

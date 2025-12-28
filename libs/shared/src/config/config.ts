@@ -11,7 +11,7 @@ export const apiConfig = {
     accountRegister: '/iam/accounts/register',
     machineAccountRegister: '/iam/accounts/register/machine',
     premisesOwnerRegister: '/iam/premises-owners/register',
-    credentialsRotate: '/iam/accounts/{accountId}/credentials/rotate',
+    credentialsRotate: '/iam/accounts/principal/{principalId}/credentials/rotate',
     deviceLogin: '/auth/login/device',
     authenticateActor: '/iam/actors/authenticate',
     actors: '/iam/actors',

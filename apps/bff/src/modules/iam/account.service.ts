@@ -18,11 +18,11 @@ export class AccountService {
     })
   }
 
-  rotateCredentials(accountId: string): Promise<DeviceCredentials> {
+  rotateCredentials(principalId: string): Promise<DeviceCredentials> {
     return this.webclient.patch<DeviceCredentials>({
       baseUrl: this.iamConfig.baseUrl,
       path: this.iamConfig.credentialsRotate,
-      uriVariables: { accountId }
+      uriVariables: { principalId }
     })
   }
 }

@@ -12,16 +12,23 @@ export class UserService {
   constructor(private readonly webclient: Webclient) {}
 
   async registerUser(userRequest: RegisterUserRequest): Promise<User> {
-    const account = await this.webclient.post<Account>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.accountRegister,
-      body: { credentialId: userRequest.email, secret: userRequest.password, kind: 'PASSWORD', type: 'HUMAN' }
-    })
-    return this.webclient.post<User>({
+    const user = await this.webclient.post<User>({
       baseUrl: this.userConfig.baseUrl,
       path: this.userConfig.userRegister,
-      body: { ...userRequest, accountId: account.accountId }
+      body: userRequest
     })
+    await this.webclient.post<Account>({
+      baseUrl: this.iamConfig.baseUrl,
+      path: this.iamConfig.accountRegister,
+      body: {
+        credentialId: userRequest.email,
+        secret: userRequest.password,
+        kind: 'PASSWORD',
+        type: 'HUMAN',
+        principalId: user.userId
+      }
+    })
+    return user
   }
 
   me(): Promise<User> {

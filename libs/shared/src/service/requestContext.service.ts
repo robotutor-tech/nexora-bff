@@ -11,7 +11,7 @@ export class RequestContextService {
     const { headers } = this.request
     return {
       authorization: headers['authorization'] ?? '',
-      'x-trace-id': (headers['x-trace-id'] ?? '') as string
+      'correlation-id': this.request.app.locals.correlationId as string
     }
   }
 }

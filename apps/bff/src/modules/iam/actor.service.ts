@@ -21,6 +21,7 @@ export class ActorService {
 
   async registerDeviceActor(): Promise<Actor> {
     const device = await this.devicesService.getCurrentDevice()
+    console.log(device, '-------------------')
     return this.webclient.post<Actor>({
       baseUrl: this.iamConfig.baseUrl,
       path: this.iamConfig.machineActor,
