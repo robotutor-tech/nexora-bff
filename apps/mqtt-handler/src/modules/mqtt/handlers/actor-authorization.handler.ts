@@ -8,7 +8,7 @@ import { CacheData } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorAuthorizationHandler extends BaseHandler<AclRequest, AuthorizationResponse> {
-  private readonly entitlementConfig = apiConfig.entitlement
+  private readonly iam = apiConfig.iam
   constructor(
     private readonly webclient: Webclient,
     private readonly cacheService: CacheService
@@ -18,16 +18,16 @@ export class ActorAuthorizationHandler extends BaseHandler<AclRequest, Authoriza
 
   async handle(aclRequest: AclRequest): Promise<AuthorizationResponse> {
     const { resourceId, resourceType } = this.getResource(aclRequest.topic)
-    const action = this.getAction(aclRequest, resourceType)
+    const actionType = this.getAction(aclRequest, resourceType)
     const cacheData = await this.cacheService.get<CacheData>(aclRequest.clientId)
     if (!cacheData) {
       return { result: 'deny' }
     }
     return this.webclient
       .post<boolean>({
-        baseUrl: this.entitlementConfig.baseUrl,
-        path: this.entitlementConfig.authorize,
-        body: { resourceType, action, resourceId },
+        baseUrl: this.iam.baseUrl,
+        path: this.iam.authorize,
+        body: { resourceType, actionType, resourceId },
         headers: { Authorization: cacheData.authorization }
       })
       .then(result => ({ result: result ? 'allow' : 'deny' }) as AuthorizationResponse)

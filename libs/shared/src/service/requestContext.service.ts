@@ -2,6 +2,7 @@ import { Inject, Injectable, Scope } from '@nestjs/common'
 import { REQUEST } from '@nestjs/core'
 import { Request } from 'express'
 import { Document } from '../types/types'
+import { randomUUID } from 'node:crypto'
 
 @Injectable({ scope: Scope.REQUEST })
 export class RequestContextService {
@@ -11,7 +12,7 @@ export class RequestContextService {
     const { headers } = this.request
     return {
       authorization: headers['authorization'] ?? '',
-      'correlation-id': this.request.app.locals.correlationId as string
+      'correlation-id': (this.request.headers['correlation-id'] ?? randomUUID().toString()) as string
     }
   }
 }

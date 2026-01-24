@@ -16,6 +16,7 @@ export const apiConfig = {
     authenticateActor: '/iam/actors/authenticate',
     actors: '/iam/actors',
     actor: '/iam/actors/me',
+    authorize: '/iam/resources/authorize',
     machineActor: '/iam/actors/machine',
     validate: '/iam/sessions/validate',
     refresh: '/iam/sessions/refresh',

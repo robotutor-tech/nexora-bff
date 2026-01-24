@@ -5,7 +5,7 @@ import { Actor, ActorData, Device, User } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorDataRetriever {
-  private readonly actorConfig = apiConfig.actor
+  private readonly iamConfig = apiConfig.iam
   private readonly userConfig = apiConfig.user
   private readonly deviceConfig = apiConfig.device
 
@@ -13,8 +13,8 @@ export class ActorDataRetriever {
 
   async retrieve(authRequest: AuthenticationRequest): Promise<ActorData> {
     const actor = await this.webclient.get<Actor>({
-      baseUrl: this.actorConfig.baseUrl,
-      path: this.actorConfig.me,
+      baseUrl: this.iamConfig.baseUrl,
+      path: this.iamConfig.actor,
       headers: { Authorization: authRequest.password }
     })
     const principalData = await this.getPrincipalData(actor, authRequest)
