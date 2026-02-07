@@ -15,11 +15,6 @@ export class ActorController {
     return this.actorService.getCurrentActor()
   }
 
-  @Post('machine')
-  registerDevices(): Promise<Actor> {
-    return this.actorService.registerDeviceActor()
-  }
-
   @Post('authenticate')
   @UsePipes(new ZodValidationPipe(AuthenticateActorSchema))
   actorLogin(@Body() authenticateActorDto: AuthenticateActorDto): Promise<TokenResponse> {

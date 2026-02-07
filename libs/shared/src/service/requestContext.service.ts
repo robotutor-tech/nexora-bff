@@ -15,4 +15,8 @@ export class RequestContextService {
       'correlation-id': (this.request.headers['correlation-id'] ?? randomUUID().toString()) as string
     }
   }
+
+  updateAuthorization(authorization: string): void {
+    this.request.headers.authorization = authorization
+  }
 }

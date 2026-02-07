@@ -6,7 +6,6 @@ export const KafkaConfig: KafkaOptions = {
   options: {
     client: {
       clientId: process.env.APPLICATION_NAME!,
-      // eslint-disable-next-line no-process-env
       brokers: [process.env.KAFKA_URL ?? '127.0.0.1:9092']
     },
     consumer: {

@@ -10,6 +10,7 @@ import { AutomationModule } from './modules/automation/automation.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
 import { BridgeModule } from './modules/bridges/bridge.module'
 import { UserModule } from './modules/user/user.module'
+import { HealthcheckModule } from './modules/healthcheck/healthcheck.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UserModule } from './modules/user/user.module'
     BridgeModule,
     DeviceModule,
     FeedsModule,
+    HealthcheckModule,
     IamModule,
     PremisesModule,
     RuleModule,
