@@ -5,9 +5,11 @@ import { apiConfig, Webclient } from '@shared'
 import { randomUUID } from 'node:crypto'
 import { Account } from '../iam/types/account'
 import { CommissionDeviceRequest } from './dto/commission-device.dto'
-import { AccountService } from '../iam/account.service'
 import { ActorService } from '../iam/actor.service'
+import { AccountService } from '../iam/account.service'
 import { RequestContextService } from '@shared/service/requestContext.service'
+import { AuthenticateAccountRequest } from '../iam/dto/authenticate-account.dto'
+import { TokenResponse } from '../iam/types/auth'
 
 @Injectable()
 export class DeviceService {
@@ -16,8 +18,8 @@ export class DeviceService {
 
   constructor(
     private readonly webclient: Webclient,
-    private readonly accountService: AccountService,
     private readonly actorService: ActorService,
+    private readonly accountService: AccountService,
     private readonly requestContextService: RequestContextService
   ) {}
 
@@ -62,11 +64,6 @@ export class DeviceService {
   }
 
   async commission(request: CommissionDeviceRequest): Promise<Device> {
-    const accountToken = await this.accountService.authenticate({
-      credentialId: request.credentialId,
-      secret: request.secret
-    })
-    this.requestContextService.updateAuthorization(accountToken.token)
     const currentDevice = await this.getCurrentDevice()
     const { premisesId } = await this.actorService
       .registerDeviceActor(currentDevice.deviceId, currentDevice.premisesId)
@@ -76,12 +73,14 @@ export class DeviceService {
     return this.webclient.post<Device>({
       baseUrl: this.deviceConfig.baseUrl,
       path: this.deviceConfig.commission,
-      body: {
-        serialNo: request.serialNo,
-        modelNo: request.modelNo,
-        osName: request.osName,
-        osVersion: request.osVersion
-      }
+      body: request
     })
+  }
+
+  async authenticate(request: AuthenticateAccountRequest): Promise<TokenResponse> {
+    const tokens = await this.accountService.authenticate(request)
+    this.requestContextService.updateAuthorization(tokens.token)
+    const currentDevice = await this.getCurrentDevice()
+    return this.actorService.authenticate({ premisesId: currentDevice.premisesId })
   }
 }

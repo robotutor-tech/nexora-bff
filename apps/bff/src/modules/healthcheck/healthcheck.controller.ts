@@ -5,7 +5,7 @@ export class HealthcheckController {
   constructor() {}
 
   @Get()
-  createAutomation(): { message: string } {
+  checkHealth(): { message: string } {
     return { message: `Hello, you have just arrived at ${process.env.APPLICATION_NAME} BFF server.` }
   }
 }

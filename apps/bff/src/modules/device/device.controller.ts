@@ -8,6 +8,9 @@ import * as path from 'path'
 import { RegisterDeviceSchema } from './schema/registerDevice.schema'
 import { CommissionDeviceSchema } from './schema/commissionDevice.schema'
 import { CommissionDeviceDto } from './dto/commission-device.dto'
+import { AuthenticateAccountSchema } from '../iam/schema/authenticateAccountSchema'
+import { AuthenticateAccountDto } from '../iam/dto/authenticate-account.dto'
+import { TokenResponse } from '../iam/types/auth'
 
 @Controller('devices')
 export class DeviceController {
@@ -33,6 +36,12 @@ export class DeviceController {
   @UsePipes(new ZodValidationPipe(CommissionDeviceSchema))
   commissionDevice(@Body() commissionDeviceDto: CommissionDeviceDto): Promise<Device> {
     return this.devicesService.commission(commissionDeviceDto)
+  }
+
+  @Post('authenticate')
+  @UsePipes(new ZodValidationPipe(AuthenticateAccountSchema))
+  authenticateDevice(@Body() authenticateAccountDto: AuthenticateAccountDto): Promise<TokenResponse> {
+    return this.devicesService.authenticate(authenticateAccountDto)
   }
 
   @Get('firmware')
