@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Device, DeviceFirmwareResponse, DeviceResponse } from './types/device'
+import { Device, DeviceFirmwareResponse, DeviceResponse, DeviceResponseForMachine } from './types/device'
 import { RegisterDeviceRequest } from './dto/register-device.dto'
 import { apiConfig, Webclient } from '@shared'
 import { randomUUID } from 'node:crypto'
@@ -10,16 +10,19 @@ import { AccountService } from '../iam/account.service'
 import { RequestContextService } from '@shared/service/requestContext.service'
 import { AuthenticateAccountRequest } from '../iam/dto/authenticate-account.dto'
 import { TokenResponse } from '../iam/types/auth'
+import { FeedsService } from '../feed/feeds.service'
 
 @Injectable()
 export class DeviceService {
   private readonly deviceConfig = apiConfig.device
   private readonly iamConfig = apiConfig.iam
 
+  // eslint-disable-next-line max-params
   constructor(
     private readonly webclient: Webclient,
     private readonly actorService: ActorService,
     private readonly accountService: AccountService,
+    private readonly feedService: FeedsService,
     private readonly requestContextService: RequestContextService
   ) {}
 
@@ -82,5 +85,22 @@ export class DeviceService {
     this.requestContextService.updateAuthorization(tokens.token)
     const currentDevice = await this.getCurrentDevice()
     return this.actorService.authenticate({ premisesId: currentDevice.premisesId })
+  }
+
+  async getDeviceDetails(): Promise<DeviceResponseForMachine> {
+    const device = await this.getCurrentDevice()
+    const feeds = await this.feedService.getAllFeeds()
+    const deviceFeeds = feeds.filter(feed => feed.deviceId === device.deviceId)
+    return {
+      deviceId: device.deviceId,
+      feeds: device.feeds.map(feedId => {
+        const feed = deviceFeeds.find(feed => feed.feedId === feedId)!
+        return {
+          feedId: feed.feedId,
+          resumeOnRestart: feed.resumeOnRestart ?? true,
+          updateLocally: feed.updateLocally ?? true
+        }
+      })
+    }
   }
 }

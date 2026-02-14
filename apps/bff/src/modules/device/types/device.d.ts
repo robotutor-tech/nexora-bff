@@ -14,6 +14,10 @@ export type Device = {
   deviceId: string
   premisesId: string
   name: string
+  state: 'CREATED' | 'REGISTERED' | 'ACTIVE' | 'INACTIVE'
+  health: 'OFFLINE' | 'ONLINE'
+  feeds: string[]
+  metaData: Record<string, unknown> | null
   zoneId: string
   registeredBy: string
   createdAt: Date
@@ -24,3 +28,7 @@ export type DeviceResponse = Device & { credentialId: string; secret: string }
 
 // export type RegisterDeviceResponse = { token: string; refreshToken: string }
 export type DeviceFirmwareResponse = { version: string; url: string }
+export type DeviceResponseForMachine = {
+  deviceId: string
+  feeds: Array<{ feedId: string; resumeOnRestart: boolean; updateLocally: boolean }>
+}

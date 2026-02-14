@@ -6,6 +6,7 @@ import { WebclientModule } from '@shared'
 @Module({
   imports: [WebclientModule],
   controllers: [FeedsController],
-  providers: [FeedsService]
+  providers: [FeedsService],
+  exports: [FeedsService]
 })
 export class FeedsModule {}

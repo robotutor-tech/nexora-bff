@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, UsePipes, Res } from '@nestjs/common'
 import { DeviceService } from './device.service'
-import { Device, DeviceFirmwareResponse, DeviceResponse } from './types/device'
+import { Device, DeviceFirmwareResponse, DeviceResponse, DeviceResponseForMachine } from './types/device'
 import { ZodValidationPipe } from '@shared'
 import { RegisterDeviceDto } from './dto/register-device.dto'
 import type { Response } from 'express'
@@ -42,6 +42,11 @@ export class DeviceController {
   @UsePipes(new ZodValidationPipe(AuthenticateAccountSchema))
   authenticateDevice(@Body() authenticateAccountDto: AuthenticateAccountDto): Promise<TokenResponse> {
     return this.devicesService.authenticate(authenticateAccountDto)
+  }
+
+  @Post('mine')
+  getDeviceDetails(): Promise<DeviceResponseForMachine> {
+    return this.devicesService.getDeviceDetails()
   }
 
   @Get('firmware')
