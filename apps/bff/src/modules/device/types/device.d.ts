@@ -30,5 +30,11 @@ export type DeviceResponse = Device & { credentialId: string; secret: string }
 export type DeviceFirmwareResponse = { version: string; url: string }
 export type DeviceResponseForMachine = {
   deviceId: string
-  feeds: Array<{ feedId: string; resumeOnRestart: boolean; updateLocally: boolean }>
+  feeds: Array<{
+    feedId: string
+    resumeOnRestart: boolean
+    updateLocally: boolean
+    value: number
+    state: 'ACTIVE' | 'INACTIVE'
+  }>
 }

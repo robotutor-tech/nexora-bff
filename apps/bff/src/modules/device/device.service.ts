@@ -98,7 +98,9 @@ export class DeviceService {
         return {
           feedId: feed.feedId,
           resumeOnRestart: feed.resumeOnRestart ?? true,
-          updateLocally: feed.updateLocally ?? true
+          updateLocally: feed.updateLocally ?? true,
+          value: feed.value,
+          state: 'ACTIVE'
         }
       })
     }

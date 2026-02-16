@@ -44,7 +44,7 @@ export class DeviceController {
     return this.devicesService.authenticate(authenticateAccountDto)
   }
 
-  @Post('mine')
+  @Get('mine')
   getDeviceDetails(): Promise<DeviceResponseForMachine> {
     return this.devicesService.getDeviceDetails()
   }
