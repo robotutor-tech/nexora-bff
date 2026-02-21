@@ -71,7 +71,7 @@ jobs:
         with:
           context: .
           platforms: linux/arm64,linux/amd64
-          file: ./bff.Dockerfile
+          file: ./dockerfile/bff.Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME_BFF }}:${{ steps.meta.outputs.sha }}
           cache-from: type=gha
@@ -174,7 +174,7 @@ jobs:
         with:
           context: .
           platforms: linux/arm64,linux/amd64
-          file: ./mqtt-handler.Dockerfile
+          file: ./dockerfile/mqtt-handler.Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME_MQTT_HANDLER }}:${{ steps.meta.outputs.sha }}
           cache-from: type=gha
