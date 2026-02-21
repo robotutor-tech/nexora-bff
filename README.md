@@ -14,6 +14,9 @@ with. It also handles authentication, authorization, and data aggregation from m
 
 This module is responsible for handling all the MQTT messages from the BFF-module and Hardware. It handles the authentication and authorization of the MQTT messages.
 
+### Mock-server Module
+This module is responsible for mocking the MQTT messages from the Hardware, kafka message from server and mock backend API response.
+
 ## Run the project in development mode
 ### BFF
 ```bash
@@ -22,4 +25,8 @@ npm run dev:bff
 ### Mqtt-handler
 ```bash
 npm run dev:mqtt
+```
+### Mock-server
+```bash
+npm run dev:mock
 ```
