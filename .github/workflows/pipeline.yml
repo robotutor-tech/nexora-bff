@@ -19,6 +19,15 @@ env:
   IMAGE_NAME_MQTT_HANDLER: ${{ secrets.DOCKER_USERNAME }}/nexora-mqtt-handler
 
 jobs:
+  image-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.meta.outputs.sha }}
+
+    steps:
+      - name: Set SHA
+        id: meta
+        run: echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
   #  # 1️⃣ LINT
   #  lint:
@@ -38,18 +47,11 @@ jobs:
 
   # 3️⃣ BUILD ARTIFACT
   build-bff:
-    #    needs: [lint, test]
+    needs: [ image-tag ]
     runs-on: ubuntu-latest
-
-    outputs:
-      sha: ${{ steps.meta.outputs.sha }}
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set SHA
-        id: meta
-        run: echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
       - uses: actions/setup-node@v4
         with:
@@ -79,7 +81,7 @@ jobs:
 
   # 4️⃣ AUTO DEPLOY DEV (if develop branch)
   dev-bff:
-    needs: build-bff
+    needs: [ build-bff, image-tag ]
     runs-on: ubuntu-latest
 
     steps:
@@ -93,7 +95,7 @@ jobs:
           $IMAGE_NAME_BFF:${{ needs.build.outputs.sha }}
 
   test-bff:
-    needs: [dev-bff, build-bff]
+    needs: [ dev-bff, image-tag ]
     if: github.event_name == 'workflow_dispatch' && (github.event.inputs.stage == 'test' || github.event.inputs.stage == 'prod')
     runs-on: ubuntu-latest
 
@@ -108,7 +110,7 @@ jobs:
             $IMAGE_NAME_BFF:${{ needs.build.outputs.sha }}
 
   prod-bff:
-    needs: [test-bff, build-bff]
+    needs: [ test-bff, image-tag ]
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.stage == 'prod'
     runs-on: ubuntu-latest
 
@@ -121,7 +123,7 @@ jobs:
           docker buildx imagetools create \
             -t $IMAGE_NAME_BFF:prod \
             $IMAGE_NAME_BFF:${{ needs.build.outputs.sha }}
-          
+  
 
   #  # 1️⃣ LINT
   #  lint:
@@ -141,19 +143,11 @@ jobs:
 
   # 3️⃣ BUILD ARTIFACT
   build-mqtt-handler:
-    #    needs: [lint, test]
+    needs: [ image-tag ]
     runs-on: ubuntu-latest
-
-    outputs:
-      sha: ${{ steps.meta.outputs.sha }}
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set SHA
-        id: meta
-        run: echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -182,7 +176,7 @@ jobs:
 
   # 4️⃣ AUTO DEPLOY DEV (if develop branch)
   dev-mqtt-handler:
-    needs: build-mqtt-handler
+    needs: [build-mqtt-handler, image-tag]
     runs-on: ubuntu-latest
 
     steps:
@@ -196,7 +190,7 @@ jobs:
           $IMAGE_NAME_MQTT_HANDLER:${{ needs.build.outputs.sha }}
 
   test-mqtt-handler:
-    needs: [dev-mqtt-handler, build-mqtt-handler]
+    needs: [ dev-mqtt-handler, image-tag ]
     if: github.event_name == 'workflow_dispatch' && (github.event.inputs.stage == 'test' || github.event.inputs.stage == 'prod')
     runs-on: ubuntu-latest
 
@@ -211,7 +205,7 @@ jobs:
             $IMAGE_NAME_MQTT_HANDLER:${{ needs.build.outputs.sha }}
 
   prod-mqtt-handler:
-    needs: [test-mqtt-handler, build-mqtt-handler]
+    needs: [ test-mqtt-handler, image-tag ]
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.stage == 'prod'
     runs-on: ubuntu-latest
 
