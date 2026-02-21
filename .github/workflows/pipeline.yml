@@ -92,7 +92,7 @@ jobs:
         run: |
           docker buildx imagetools create \
           -t $IMAGE_NAME_BFF:dev \
-          $IMAGE_NAME_BFF:${{ needs.build.outputs.sha }}
+          $IMAGE_NAME_BFF:${{ needs.image-tag.outputs.sha }}
 
   test-bff:
     needs: [ dev-bff, image-tag ]
@@ -107,7 +107,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             -t $IMAGE_NAME_BFF:test \
-            $IMAGE_NAME_BFF:${{ needs.build.outputs.sha }}
+            $IMAGE_NAME_BFF:${{ needs.image-tag.outputs.sha }}
 
   prod-bff:
     needs: [ test-bff, image-tag ]
@@ -122,7 +122,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             -t $IMAGE_NAME_BFF:prod \
-            $IMAGE_NAME_BFF:${{ needs.build.outputs.sha }}
+            $IMAGE_NAME_BFF:${{ needs.image-tag.outputs.sha }}
   
 
   #  # 1️⃣ LINT
@@ -187,7 +187,7 @@ jobs:
         run: |
           docker buildx imagetools create \
           -t $IMAGE_NAME_MQTT_HANDLER:dev \
-          $IMAGE_NAME_MQTT_HANDLER:${{ needs.build.outputs.sha }}
+          $IMAGE_NAME_MQTT_HANDLER:${{ needs.image-tag.outputs.sha }}
 
   test-mqtt-handler:
     needs: [ dev-mqtt-handler, image-tag ]
@@ -202,7 +202,7 @@ jobs:
         run: |
           docker buildx imagetools create \
             -t $IMAGE_NAME_MQTT_HANDLER:test \
-            $IMAGE_NAME_MQTT_HANDLER:${{ needs.build.outputs.sha }}
+            $IMAGE_NAME_MQTT_HANDLER:${{ needs.image-tag.outputs.sha }}
 
   prod-mqtt-handler:
     needs: [ test-mqtt-handler, image-tag ]
@@ -217,4 +217,4 @@ jobs:
         run: |
           docker buildx imagetools create \
             -t $IMAGE_NAME_MQTT_HANDLER:prod \
-            $IMAGE_NAME_MQTT_HANDLER:${{ needs.build.outputs.sha }}
+            $IMAGE_NAME_MQTT_HANDLER:${{ needs.image-tag.outputs.sha }}
