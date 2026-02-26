@@ -85,6 +85,7 @@ export class DeviceService {
     this.requestContextService.updateAuthorization(tokens.token)
     const currentDevice = await this.getCurrentDevice()
     return this.actorService.authenticate({ premisesId: currentDevice.premisesId })
+      .catch(() => tokens)
   }
 
   async getDeviceDetails(): Promise<DeviceResponseForMachine> {
