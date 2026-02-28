@@ -8,7 +8,7 @@ export class AttachTraceIdMiddleware implements NestMiddleware {
     req.app.locals.correlationId = randomUUID()
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     req.headers['correlation-id'] = req.app.locals.corerlationId
-    Logger.log(`Request body for ${req.url}`, req.body)
+    Logger.log(`Request body for ${req.url}`)
     next()
   }
 }

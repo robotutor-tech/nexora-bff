@@ -12,7 +12,8 @@ export class LoggerMiddleware implements NestMiddleware {
         method: req.method,
         url: req.url,
         searchableFields
-      })}`
+      })}`,
+      req.body
     )
     const send = res.send
     let isLogged = false
@@ -28,7 +29,8 @@ export class LoggerMiddleware implements NestMiddleware {
             statusCode: res.statusCode,
             responseTime,
             searchableFields
-          })}`
+          })}`,
+          data
         )
         isLogged = true
       }
