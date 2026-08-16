@@ -12,7 +12,7 @@ export class ActorAuthenticationHandler extends BaseHandler<
   AuthenticationResponse,
   UpdateCacheRequest
 > {
-  private readonly authConfig = apiConfig.iam
+  private readonly authConfig = apiConfig.identity
   constructor(private readonly webclient: Webclient) {
     super()
   }

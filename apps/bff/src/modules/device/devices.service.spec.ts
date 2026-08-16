@@ -37,7 +37,7 @@
 //       const result = await service.registerDevice(req )
 //
 //       expect(webclient.post).toHaveBeenCalledTimes(1)
-//       expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.deviceInvitation, body: req })
+//       expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.deviceInvitation, body: req })
 //       expect(result).toBe(invitation)
 //     })
 //   })
@@ -78,7 +78,7 @@
 //       const result = await service.getAllDevicesInvitations()
 //
 //       expect(webclient.get).toHaveBeenCalledTimes(1)
-//       expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.deviceInvitation })
+//       expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.deviceInvitation })
 //       expect(result).toBe(invitations)
 //     })
 //   })

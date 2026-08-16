@@ -1,11 +1,11 @@
 import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
-import { IamService } from './iam.service'
+import { identityService } from './identity.service'
 import { Webclient, apiConfig } from '@shared'
 import type { TokenResponse, ValidatedUser } from './types/auth'
 
-describe('IamService', () => {
-  let service: IamService
+describe('identityService', () => {
+  let service: identityService
   let webclient: Webclient
 
   beforeEach(async () => {
@@ -17,10 +17,10 @@ describe('IamService', () => {
     } as unknown as Webclient
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [IamService, { provide: Webclient, useValue: webclient }]
+      providers: [identityService, { provide: Webclient, useValue: webclient }]
     }).compile()
 
-    service = module.get<IamService>(IamService)
+    service = module.get<identityService>(identityService)
   })
 
   it('should be defined', () => {
@@ -37,7 +37,7 @@ describe('IamService', () => {
       const result = await service.authenticateUser(req)
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.authenticate, body: req })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.authenticate, body: req })
       expect(result).toBe(tokens)
     })
   })
@@ -51,7 +51,7 @@ describe('IamService', () => {
       const result = await service.validate()
 
       expect(webclient.get).toHaveBeenCalledTimes(1)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.validate })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.validate })
       expect(result).toBe(validated)
     })
   })
@@ -66,7 +66,7 @@ describe('IamService', () => {
       const result = await service.authenticateActor(req)
 
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.authenticateActor, body: req })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.authenticateActor, body: req })
       expect(result).toBe(tokens)
     })
   })
@@ -80,7 +80,7 @@ describe('IamService', () => {
       const result = await service.refresh()
 
       expect(webclient.get).toHaveBeenCalledTimes(1)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.iam.baseUrl, path: apiConfig.iam.refresh })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.refresh })
       expect(result).toBe(tokens)
     })
   })

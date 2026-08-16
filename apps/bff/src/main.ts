@@ -9,7 +9,7 @@ async function bootstrap() {
     options: {
       client: {
         clientId: 'nexora-bff',
-        brokers: [process.env.KAFKA_URL ?? 'localhost:9092']
+        brokers: [process.env.KAFKA_URL ?? 'localhost:29092']
       },
       consumer: {
         groupId: 'bff-ui-consumer-group'

@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common'
-import { MessagePattern, Transport } from '@nestjs/microservices'
+// import { MessagePattern, Transport } from '@nestjs/microservices'
 import type { FeedValueOut } from './types/bridge'
 import { MqttClient } from '@shared/mqtt/mqtt.client'
 
@@ -7,12 +7,12 @@ import { MqttClient } from '@shared/mqtt/mqtt.client'
 export class DownlinkBridge {
   constructor(private readonly mqttClient: MqttClient) {}
 
-  @MessagePattern('feed.value.updated', Transport.KAFKA)
+  // @MessagePattern('feed.value.updated', Transport.KAFKA)
   updateFeedValue({ feedId, value }: FeedValueOut): void {
     this.mqttClient.publish(`server/feed/${feedId}/value`, { value: value, feedId })
   }
 
-  @MessagePattern('auth.invitation.accepted', Transport.KAFKA)
+  // @MessagePattern('auth.invitation.accepted', Transport.KAFKA)
   invitationAccepted({ invitationId }: { invitationId: string }): void {
     this.mqttClient.publish(`server/invitation/${invitationId}/status`, { status: 'ACCEPTED', invitationId })
   }

@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common'
 import { RegisterUserRequest } from './dto/register-user.dto'
 import { apiConfig, Webclient } from '@shared'
 import { User } from '@shared/cache/cache'
-import { Account } from '../iam/types/account'
+import { Account } from '../identity/types/account'
 
 @Injectable()
 export class UserService {
   private readonly userConfig = apiConfig.user
-  private readonly iamConfig = apiConfig.iam
+  private readonly identityConfig = apiConfig.identity
 
   constructor(private readonly webclient: Webclient) {}
 
@@ -18,14 +18,12 @@ export class UserService {
       body: userRequest
     })
     await this.webclient.post<Account>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.accountRegister,
+      baseUrl: this.identityConfig.baseUrl,
+      path: this.identityConfig.accountRegister,
       body: {
-        credentialId: userRequest.email,
-        secret: userRequest.password,
-        kind: 'PASSWORD',
-        type: 'HUMAN',
-        principalId: user.userId
+        email: userRequest.email,
+        password: userRequest.password,
+        userId: user.userId
       }
     })
     return user

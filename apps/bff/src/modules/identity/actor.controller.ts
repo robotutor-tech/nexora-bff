@@ -6,7 +6,7 @@ import { AuthenticateActorSchema } from './schema/authenticateActor.schema'
 import { AuthenticateActorDto } from './dto/authenticate-actor.dto'
 import { TokenResponse } from './types/auth'
 
-@Controller('iam/actors')
+@Controller('identity/actors')
 export class ActorController {
   constructor(private readonly actorService: ActorService) {}
 

@@ -8,7 +8,7 @@ import { CacheData } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorAuthorizationHandler extends BaseHandler<AclRequest, AuthorizationResponse> {
-  private readonly iam = apiConfig.iam
+  private readonly identity = apiConfig.identity
   constructor(
     private readonly webclient: Webclient,
     private readonly cacheService: CacheService
@@ -25,8 +25,8 @@ export class ActorAuthorizationHandler extends BaseHandler<AclRequest, Authoriza
     }
     return this.webclient
       .post<boolean>({
-        baseUrl: this.iam.baseUrl,
-        path: this.iam.authorize,
+        baseUrl: this.identity.baseUrl,
+        path: this.identity.authorize,
         body: { resourceType, actionType, resourceId },
         headers: { Authorization: cacheData.authorization }
       })

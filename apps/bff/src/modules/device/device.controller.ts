@@ -8,9 +8,9 @@ import * as path from 'path'
 import { RegisterDeviceSchema } from './schema/registerDevice.schema'
 import { CommissionDeviceSchema } from './schema/commissionDevice.schema'
 import { CommissionDeviceDto } from './dto/commission-device.dto'
-import { AuthenticateAccountSchema } from '../iam/schema/authenticateAccountSchema'
-import { AuthenticateAccountDto } from '../iam/dto/authenticate-account.dto'
-import { TokenResponse } from '../iam/types/auth'
+import { AuthenticateAccountSchema } from '../identity/schema/authenticateAccountSchema'
+import { AuthenticateAccountDto } from '../identity/dto/authenticate-account.dto'
+import { TokenResponse } from '../identity/types/auth'
 
 @Controller('devices')
 export class DeviceController {

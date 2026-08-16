@@ -3,19 +3,19 @@ import { Device, DeviceFirmwareResponse, DeviceResponse, DeviceResponseForMachin
 import { RegisterDeviceRequest } from './dto/register-device.dto'
 import { apiConfig, Webclient } from '@shared'
 import { randomUUID } from 'node:crypto'
-import { Account } from '../iam/types/account'
+import { Account } from '../identity/types/account'
 import { CommissionDeviceRequest } from './dto/commission-device.dto'
-import { ActorService } from '../iam/actor.service'
-import { AccountService } from '../iam/account.service'
+import { ActorService } from '../identity/actor.service'
+import { AccountService } from '../identity/account.service'
 import { RequestContextService } from '@shared/service/requestContext.service'
-import { AuthenticateAccountRequest } from '../iam/dto/authenticate-account.dto'
-import { TokenResponse } from '../iam/types/auth'
+import { AuthenticateAccountRequest } from '../identity/dto/authenticate-account.dto'
+import { TokenResponse } from '../identity/types/auth'
 import { FeedsService } from '../feed/feeds.service'
 
 @Injectable()
 export class DeviceService {
   private readonly deviceConfig = apiConfig.device
-  private readonly iamConfig = apiConfig.iam
+  private readonly identityConfig = apiConfig.identity
 
   // eslint-disable-next-line max-params
   constructor(
@@ -40,8 +40,8 @@ export class DeviceService {
       principalId: device.deviceId
     }
     await this.webclient.post<Account>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.machineAccountRegister,
+      baseUrl: this.identityConfig.baseUrl,
+      path: this.identityConfig.machineAccountRegister,
       body: payload
     })
 

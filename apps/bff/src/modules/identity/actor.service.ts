@@ -6,26 +6,26 @@ import { AuthenticateActorRequest } from './dto/authenticate-actor.dto'
 
 @Injectable()
 export class ActorService {
-  private readonly iamConfig = apiConfig.iam
+  private readonly identityConfig = apiConfig.identity
 
   constructor(private readonly webclient: Webclient) {}
 
   getCurrentActor(): Promise<Actor> {
-    return this.webclient.get<Actor>({ baseUrl: this.iamConfig.baseUrl, path: this.iamConfig.actor })
+    return this.webclient.get<Actor>({ baseUrl: this.identityConfig.baseUrl, path: this.identityConfig.actor })
   }
 
   async registerDeviceActor(deviceId: string, premisesId: string): Promise<Actor> {
     return this.webclient.post<Actor>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.machineActor,
+      baseUrl: this.identityConfig.baseUrl,
+      path: this.identityConfig.machineActor,
       body: { deviceId, premisesId }
     })
   }
 
   authenticate(authenticateActorRequest: AuthenticateActorRequest): Promise<TokenResponse> {
     return this.webclient.post<TokenResponse>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.authenticateActor,
+      baseUrl: this.identityConfig.baseUrl,
+      path: this.identityConfig.authenticateActor,
       body: authenticateActorRequest
     })
   }

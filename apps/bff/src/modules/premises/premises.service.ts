@@ -7,28 +7,22 @@ import { Actor } from '@shared/cache/cache'
 @Injectable()
 export class PremisesService {
   private readonly premisesConfig = apiConfig.premises
-  private readonly iamConfig = apiConfig.iam
+  private readonly identityConfig = apiConfig.identity
 
   constructor(private readonly webclient: Webclient) {}
 
   async registerPremises(createRequest: CreatePremisesRequest): Promise<Premises> {
-    const premises = await this.webclient.post<Premises>({
+    return this.webclient.post<Premises>({
       baseUrl: this.premisesConfig.baseUrl,
       path: this.premisesConfig.premises,
       body: createRequest
     })
-    await this.webclient.post<unknown>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.premisesOwnerRegister,
-      body: { premisesId: premises.premisesId }
-    })
-    return premises
   }
 
   async getAllPremises(): Promise<Premises[]> {
     const actors = await this.webclient.get<Actor[]>({
-      baseUrl: this.iamConfig.baseUrl,
-      path: this.iamConfig.actors
+      baseUrl: this.identityConfig.baseUrl,
+      path: this.identityConfig.actors
     })
     if (actors.length === 0) {
       return []

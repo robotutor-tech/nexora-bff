@@ -6,7 +6,7 @@ import { AuthenticateAccountSchema } from './schema/authenticateAccountSchema'
 import { AuthenticateAccountDto } from './dto/authenticate-account.dto'
 import { TokenResponse } from './types/auth'
 
-@Controller('iam/accounts')
+@Controller('identity/accounts')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 

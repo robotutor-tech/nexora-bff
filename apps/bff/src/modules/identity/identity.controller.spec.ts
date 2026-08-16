@@ -1,12 +1,12 @@
 import type { TestingModule } from '@nestjs/testing'
 import { Test } from '@nestjs/testing'
-import { IamController } from './iam.controller'
-import { IamService } from './iam.service'
+import { identityController } from './identity.controller'
+import { identityService } from './identity.service'
 import type { TokenResponse, ValidatedUser } from './types/auth'
 
-describe('IamController', () => {
-  let controller: IamController
-  let service: IamService
+describe('identityController', () => {
+  let controller: identityController
+  let service: identityService
 
   beforeEach(async () => {
     jest.clearAllMocks()
@@ -16,14 +16,14 @@ describe('IamController', () => {
       validate: jest.fn(),
       refresh: jest.fn(),
       actorLogin: jest.fn()
-    } as unknown as IamService
+    } as unknown as identityService
 
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [IamController],
-      providers: [{ provide: IamService, useValue: service }]
+      controllers: [identityController],
+      providers: [{ provide: identityService, useValue: service }]
     }).compile()
 
-    controller = module.get<IamController>(IamController)
+    controller = module.get<identityController>(identityController)
   })
 
   it('should be defined', () => {

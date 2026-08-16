@@ -1,28 +1,28 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common'
-import { IamService } from './iam.service'
+import { identityService } from './identity.service'
 import { TokenResponse, ValidatedUser } from './types/auth'
 import { ZodValidationPipe } from '@shared'
 import { DeviceLoginSchema } from './schema/deviceLogin.schema'
 import { DeviceLoginDto } from './dto/device-login.dto'
 
-@Controller('iam')
-export class IamController {
-  constructor(private readonly iamService: IamService) {}
+@Controller('identity')
+export class identityController {
+  constructor(private readonly identityService: identityService) {}
 
   @Get('validate')
   validate(): Promise<ValidatedUser> {
-    return this.iamService.validate()
+    return this.identityService.validate()
   }
 
   @Get('refresh')
   refresh(): Promise<TokenResponse> {
-    return this.iamService.refresh()
+    return this.identityService.refresh()
   }
 
   @Post('login/device')
   @UsePipes(new ZodValidationPipe(DeviceLoginSchema))
   deviceLogin(@Body() deviceLoginDto: DeviceLoginDto): Promise<TokenResponse> {
-    return this.iamService.deviceLogin(deviceLoginDto)
+    return this.identityService.deviceLogin(deviceLoginDto)
   }
 
 }

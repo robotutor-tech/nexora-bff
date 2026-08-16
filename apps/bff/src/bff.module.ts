@@ -5,7 +5,7 @@ import { WidgetsModule } from './modules/widget/widgets.module'
 import { DeviceModule } from './modules/device/deviceModule'
 import { FeedsModule } from './modules/feed/feeds.module'
 import { RuleModule } from './modules/rule/rule.module'
-import { IamModule } from './modules/iam/iam.module'
+import { identityModule } from './modules/identity/identity.module'
 import { AutomationModule } from './modules/automation/automation.module'
 import { AttachTraceIdMiddleware, LoggerMiddleware } from '@shared'
 import { BridgeModule } from './modules/bridges/bridge.module'
@@ -19,7 +19,7 @@ import { HealthcheckModule } from './modules/healthcheck/healthcheck.module'
     DeviceModule,
     FeedsModule,
     HealthcheckModule,
-    IamModule,
+    identityModule,
     PremisesModule,
     RuleModule,
     UserModule,

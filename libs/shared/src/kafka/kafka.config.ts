@@ -6,7 +6,7 @@ export const KafkaConfig: KafkaOptions = {
   options: {
     client: {
       clientId: process.env.APPLICATION_NAME!,
-      brokers: [process.env.KAFKA_URL ?? '127.0.0.1:9092']
+      brokers: [process.env.KAFKA_URL ?? '127.0.0.1:29092']
     },
     consumer: {
       groupId: process.env.APPLICATION_NAME!

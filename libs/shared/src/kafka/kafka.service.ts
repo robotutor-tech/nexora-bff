@@ -24,6 +24,6 @@ export class KafkaService {
         'x-trace-id': `${process.env.APPLICATION_NAME}:${clientId}::${randomUUID()}`
       }
     })
-    this.logger.log(`Successfully published kafka topic ${topicName}`)
+    this.logger.log(`Successfully published Kafka topic ${topicName}`)
   }
 }
