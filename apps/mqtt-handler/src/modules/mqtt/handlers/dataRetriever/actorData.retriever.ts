@@ -13,7 +13,6 @@ export class ActorDataRetriever {
 
   async retrieve(authRequest: AuthenticationRequest): Promise<ActorData> {
     const actor = await this.webclient.get<Actor>({
-      baseUrl: this.identityConfig.baseUrl,
       path: this.identityConfig.actor,
       headers: { Authorization: authRequest.password }
     })
@@ -27,13 +26,11 @@ export class ActorDataRetriever {
   private async getPrincipalData(actor: Actor, authRequest: AuthenticationRequest): Promise<User | Device> {
     if (actor.principalType === 'USER') {
       return this.webclient.get<User>({
-        baseUrl: this.userConfig.baseUrl,
         path: this.userConfig.me,
         headers: { Authorization: authRequest.password }
       })
     }
     return this.webclient.get<Device>({
-      baseUrl: this.deviceConfig.baseUrl,
       path: this.deviceConfig.me,
       headers: { Authorization: authRequest.password }
     })

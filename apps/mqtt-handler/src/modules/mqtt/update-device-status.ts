@@ -24,7 +24,6 @@ export class UpdateDeviceStatus {
     }
 
     return this.webclient.patch({
-      baseUrl: this.deviceConfig.baseUrl,
       path: this.deviceConfig.health,
       body: { health: statusRequest.event.split('.')[1].toUpperCase() },
       headers: { Authorization: cacheData.authorization }

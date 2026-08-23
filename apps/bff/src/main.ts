@@ -11,6 +11,7 @@ async function bootstrap() {
     options: {
       client: {
         clientId: 'nexora-bff',
+        // eslint-disable-next-line no-process-env
         brokers: [process.env.KAFKA_URL ?? 'localhost:29092']
       },
       consumer: {
@@ -22,6 +23,7 @@ async function bootstrap() {
   app.use(cookieParser())
   app.enableCors({ origin: FRONTEND_URL, credentials: true })
   app.startAllMicroservices().catch()
+  // eslint-disable-next-line no-process-env
   await app.listen(process.env.port ?? 3001)
 }
 

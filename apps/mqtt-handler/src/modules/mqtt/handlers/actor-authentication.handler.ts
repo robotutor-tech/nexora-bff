@@ -20,7 +20,6 @@ export class ActorAuthenticationHandler extends BaseHandler<
   override async handle(authRequest: AuthenticationRequest): Promise<AuthenticationResponse> {
     try {
       const response = await this.webclient.get<ValidatedResponse>({
-        baseUrl: this.authConfig.baseUrl,
         path: this.authConfig.validate,
         headers: { Authorization: authRequest.password }
       })

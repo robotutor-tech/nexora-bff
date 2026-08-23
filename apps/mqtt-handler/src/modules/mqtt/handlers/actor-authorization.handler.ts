@@ -25,7 +25,6 @@ export class ActorAuthorizationHandler extends BaseHandler<AclRequest, Authoriza
     }
     return this.webclient
       .post<boolean>({
-        baseUrl: this.identity.baseUrl,
         path: this.identity.authorize,
         body: { resourceType, actionType, resourceId },
         headers: { Authorization: cacheData.authorization }
