@@ -1,7 +1,8 @@
-import type { Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { Injectable } from '@nestjs/common'
 import { ApiConfig, Webclient } from '@shared'
-import { AuthenticationResponse, Tokens } from './types/tokens'
+import { AuthenticationResponse, Tokens, ValidatedResponse } from './types/tokens'
+import { AUTHORIZATION_HEADER } from '@shared/service/requestContext.service'
 
 @Injectable()
 export class IdentityService {
@@ -11,19 +12,29 @@ export class IdentityService {
 
   constructor(private readonly webclient: Webclient) {}
 
-  async refresh(request: Request, response: Response): Promise<AuthenticationResponse> {
-    const tokens = await this.webclient.get<Tokens>({
-      path: this.identityConfig.refresh
-    })
-    return this.setTokensInCookie(response, tokens)
-  }
-
   async authenticateUserAccount(request: Request, response: Response): Promise<AuthenticationResponse> {
     const tokens = await this.webclient.post<Tokens>({
       path: request.originalUrl,
       body: request.body as Record<string, unknown>
     })
     return this.setTokensInCookie(response, tokens)
+  }
+
+  async validate(request: Request, response: Response): Promise<ValidatedResponse> {
+    const accessToken = request.cookies.accessToken as string | undefined
+    if (!accessToken) {
+      const refreshToken = request.cookies.refresh_token as string | undefined
+      const tokens = await this.webclient.get<Tokens>({
+        path: this.identityConfig.refresh,
+        headers: { [AUTHORIZATION_HEADER]: `Bearer ${refreshToken}` }
+      })
+      this.setTokensInCookie(response, tokens)
+      return this.webclient.get<ValidatedResponse>({
+        path: request.originalUrl,
+        headers: { [AUTHORIZATION_HEADER]: `Bearer ${tokens.accessToken}` }
+      })
+    }
+    return this.webclient.get<ValidatedResponse>({ path: request.originalUrl })
   }
 
   private setTokensInCookie(response: Response, tokens: Tokens): AuthenticationResponse {

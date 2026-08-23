@@ -1,12 +1,14 @@
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
+import { CORRELATION_ID } from '@shared/middleware/attach-correlation-id/attach-trace-id.middleware'
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   private readonly logger = new Logger(this.constructor.name)
   use(req: Request, res: Response, next: NextFunction): void {
     const startTime = new Date()
-    const searchableFields = { 'correlation-id': req.app.locals.correlationId as string }
+    const correlationId = req.headers[CORRELATION_ID] as string
+    const searchableFields = { 'correlation-id': correlationId }
     this.logger.log(`Received Request ${JSON.stringify({ method: req.method, url: req.url, searchableFields })}`)
     const send = res.send
     let isLogged = false
@@ -27,7 +29,7 @@ export class LoggerMiddleware implements NestMiddleware {
         isLogged = true
       }
       res.header('response-time', `${responseTime}ms`)
-      res.header('correlation-id', req.app.locals.correlationId as string)
+      res.header('correlation-id', correlationId)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return send.call(this, data)
     }
