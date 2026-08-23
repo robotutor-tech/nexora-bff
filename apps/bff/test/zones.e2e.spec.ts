@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Zones Module (e2e)', () => {
@@ -46,7 +46,7 @@ describe('Zones Module (e2e)', () => {
       webclient.post.mockResolvedValueOnce(zone as unknown as Record<string, unknown>)
       const res = await request(app.getHttpServer()).post('/zones').send(dto).expect(201)
       expect(res.body).toStrictEqual(zone)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.zone.baseUrl, path: '', body: dto })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: ApiConfig.zone.baseUrl, path: '', body: dto })
     })
   })
 
@@ -58,7 +58,7 @@ describe('Zones Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(zones as unknown as Array<Record<string, unknown>>)
       const res = await request(app.getHttpServer()).get('/zones').expect(200)
       expect(res.body).toStrictEqual(zones)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.zone.baseUrl, path: '' })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.zone.baseUrl, path: '' })
     })
   })
 })

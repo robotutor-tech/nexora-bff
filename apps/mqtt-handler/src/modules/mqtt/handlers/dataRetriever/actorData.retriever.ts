@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import { apiConfig, Webclient } from '@shared'
+import { ApiConfig, Webclient } from '@shared'
 import { AuthenticationRequest } from '../../dto/authenticationDto'
 import { Actor, ActorData, Device, User } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorDataRetriever {
-  private readonly identityConfig = apiConfig.identity
-  private readonly userConfig = apiConfig.user
-  private readonly deviceConfig = apiConfig.device
+  private readonly identityConfig = ApiConfig.identity
+  private readonly userConfig = ApiConfig.user
+  private readonly deviceConfig = ApiConfig.device
 
   constructor(private readonly webclient: Webclient) {}
 

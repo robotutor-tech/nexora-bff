@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { StatusRequest } from './dto/status.dto'
-import { apiConfig, Webclient } from '@shared'
+import { ApiConfig, Webclient } from '@shared'
 import { CacheService } from '@shared/cache/cache.service'
 import { CacheData } from '@shared/cache/cache'
 
 @Injectable()
 export class UpdateDeviceStatus {
-  private readonly deviceConfig = apiConfig.device
+  private readonly deviceConfig = ApiConfig.device
 
   constructor(
     private readonly webclient: Webclient,

@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Auth Module (e2e)', () => {
@@ -42,8 +42,8 @@ describe('Auth Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/auth/login').send(dto).expect(201)
       expect(res.body).toStrictEqual(tokens)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.identity.baseUrl,
-        path: apiConfig.identity.authenticate,
+        baseUrl: ApiConfig.identity.baseUrl,
+        path: ApiConfig.identity.authenticate,
         body: dto
       })
     })
@@ -64,8 +64,8 @@ describe('Auth Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/auth/login/actor').send(dto).expect(201)
       expect(res.body).toStrictEqual(tokens)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.identity.baseUrl,
-        path: apiConfig.identity.authenticateActor,
+        baseUrl: ApiConfig.identity.baseUrl,
+        path: ApiConfig.identity.authenticateActor,
         body: dto
       })
     })
@@ -77,7 +77,7 @@ describe('Auth Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(payload)
       const res = await request(app.getHttpServer()).get('/auth/validate').expect(200)
       expect(res.body).toStrictEqual(payload)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.validate })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.identity.baseUrl, path: ApiConfig.identity.validate })
     })
   })
 
@@ -87,7 +87,7 @@ describe('Auth Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(tokens)
       const res = await request(app.getHttpServer()).get('/auth/refresh').expect(200)
       expect(res.body).toStrictEqual(tokens)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.identity.baseUrl, path: apiConfig.identity.refresh })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.identity.baseUrl, path: ApiConfig.identity.refresh })
     })
   })
 })

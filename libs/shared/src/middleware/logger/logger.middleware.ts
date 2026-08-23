@@ -7,14 +7,7 @@ export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction): void {
     const startTime = new Date()
     const searchableFields = { 'correlation-id': req.app.locals.correlationId as string }
-    this.logger.log(
-      `Received Request ${JSON.stringify({
-        method: req.method,
-        url: req.url,
-        searchableFields
-      })}`,
-      req.body
-    )
+    this.logger.log(`Received Request ${JSON.stringify({ method: req.method, url: req.url, searchableFields })}`)
     const send = res.send
     let isLogged = false
 
@@ -29,8 +22,7 @@ export class LoggerMiddleware implements NestMiddleware {
             statusCode: res.statusCode,
             responseTime,
             searchableFields
-          })}`,
-          data
+          })}`
         )
         isLogged = true
       }

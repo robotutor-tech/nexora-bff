@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('User Module (e2e)', () => {
@@ -60,7 +60,7 @@ describe('User Module (e2e)', () => {
 
       expect(res.body).toStrictEqual(user)
       expect(webclient.post).toHaveBeenCalledTimes(1)
-      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: apiConfig.user.baseUrl, path: '', body: dto })
+      expect(webclient.post).toHaveBeenCalledWith({ baseUrl: ApiConfig.user.baseUrl, path: '', body: dto })
     })
   })
 
@@ -82,7 +82,7 @@ describe('User Module (e2e)', () => {
 
       expect(res.body).toStrictEqual(me)
       expect(webclient.get).toHaveBeenCalledTimes(1)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.user.baseUrl, path: apiConfig.user.me })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.user.baseUrl, path: ApiConfig.user.me })
     })
   })
 })

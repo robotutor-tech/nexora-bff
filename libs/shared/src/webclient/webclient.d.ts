@@ -1,5 +1,6 @@
+import type { Document } from '@shared/types/types'
+
 export type GetRequest = {
-  baseUrl: string
   path: string
   queryParams?: string | Record<string, string> | string[][] | URLSearchParams
   uriVariables?: Record<string, number | string>
@@ -7,7 +8,11 @@ export type GetRequest = {
   skipLoggingResponseBody?: boolean
 }
 
-export type PostRequest<T extends Record<string, unknown> = Record<string, unknown>> = GetRequest & {
+export type PostRequest<T extends Document = Document> = GetRequest & {
   body?: T
   skipLoggingRequestBody?: boolean
+}
+
+export type WebClientRequest<T extends Document = Document> = PostRequest<T> & {
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 }

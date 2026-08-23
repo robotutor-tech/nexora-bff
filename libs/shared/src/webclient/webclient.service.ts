@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
 import axios, { AxiosError, AxiosInstance } from 'axios'
-import type { GetRequest, PostRequest } from './webclient'
+import type { GetRequest, PostRequest, WebClientRequest } from './webclient'
 import { Document } from '../types/types'
 import { RequestContextService } from '../service/requestContext.service'
+import { ApiConfig } from '@shared/config/config'
 
 @Injectable()
 export class Webclient {
@@ -10,7 +11,7 @@ export class Webclient {
   private readonly logger = new Logger(this.constructor.name)
 
   constructor(private readonly requestContextService: RequestContextService) {
-    this.axiosInstance = axios.create({ timeout: 5000 })
+    this.axiosInstance = axios.create({ baseURL: ApiConfig.baseUrl, timeout: 5000 })
     this.axiosInstance.interceptors.response.use(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       response => response.data,
@@ -26,8 +27,32 @@ export class Webclient {
     )
   }
 
-  async get<ReturnType>({ baseUrl, path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
-    const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+  request<ReturnType>({
+    method,
+    path,
+    body,
+    queryParams,
+    uriVariables,
+    headers = {}
+  }: WebClientRequest): Promise<ReturnType> {
+    const url = this.createUrl(path, queryParams, uriVariables)
+    const startTime = new Date().getTime()
+    return this.axiosInstance
+      .request<ReturnType>({ method, url, data: body, headers: this.parseHeaders(headers) })
+      .then(response => {
+        const endTime = new Date().getTime()
+        const responseTime = endTime - startTime
+        this.logger.log(`Successfully get api response for ${JSON.stringify({ responseTime, url, headers })}`)
+        return response
+      })
+      .catch(error => {
+        this.logger.error(`Failed to get api response for ${JSON.stringify({ url, headers, error })}`)
+        throw error
+      }) as Promise<ReturnType>
+  }
+
+  get<ReturnType>({ path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
+    const url = this.createUrl(path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .get<ReturnType>(url, {
@@ -45,15 +70,8 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  async post<ReturnType>({
-    baseUrl,
-    path,
-    body,
-    queryParams,
-    uriVariables,
-    headers = {}
-  }: PostRequest): Promise<ReturnType> {
-    const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+  post<ReturnType>({ path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
+    const url = this.createUrl(path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .post<ReturnType>(url, body, {
@@ -71,15 +89,8 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  async put<ReturnType>({
-    baseUrl,
-    path,
-    body,
-    queryParams,
-    uriVariables,
-    headers = {}
-  }: PostRequest): Promise<ReturnType> {
-    const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+  put<ReturnType>({ path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
+    const url = this.createUrl(path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .put<ReturnType>(url, body, {
@@ -97,15 +108,8 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  async patch<ReturnType>({
-    baseUrl,
-    path,
-    body,
-    queryParams,
-    uriVariables,
-    headers = {}
-  }: PostRequest): Promise<ReturnType> {
-    const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+  patch<ReturnType>({ path, body, queryParams, uriVariables, headers = {} }: PostRequest): Promise<ReturnType> {
+    const url = this.createUrl(path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .patch<ReturnType>(url, body, {
@@ -123,14 +127,8 @@ export class Webclient {
       }) as Promise<ReturnType>
   }
 
-  async delete<ReturnType>({
-    baseUrl,
-    path,
-    queryParams,
-    uriVariables,
-    headers = {}
-  }: GetRequest): Promise<ReturnType> {
-    const url = this.createUrl(baseUrl, path, queryParams, uriVariables)
+  delete<ReturnType>({ path, queryParams, uriVariables, headers = {} }: GetRequest): Promise<ReturnType> {
+    const url = this.createUrl(path, queryParams, uriVariables)
     const startTime = new Date().getTime()
     return this.axiosInstance
       .delete<ReturnType>(url, {
@@ -149,15 +147,13 @@ export class Webclient {
   }
 
   private createUrl(
-    baseUrl: string,
     path: string,
     queryParams: string | Record<string, string> | string[][] | URLSearchParams = {},
     uriVariables: Record<string, number | string> = {}
   ): string {
-    const url = baseUrl.concat(path)
     const urlWithPathParams = Object.keys(uriVariables).reduce((url: string, keyName: string) => {
       return url.replace(`{${keyName}}`, uriVariables[keyName] as string)
-    }, url)
+    }, path)
     const params = new URLSearchParams(queryParams)
     const queryParamsInString = params.toString()
 

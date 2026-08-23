@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Feeds Module (e2e)', () => {
@@ -37,7 +37,7 @@ describe('Feeds Module (e2e)', () => {
       const res = await request(app.getHttpServer()).get('/feeds').expect(200)
 
       expect(res.body).toStrictEqual(feeds)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.feed.baseUrl, path: '' })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.feed.baseUrl, path: '' })
     })
   })
 })

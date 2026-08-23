@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Devices Module (e2e)', () => {
@@ -42,8 +42,8 @@ describe('Devices Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/devices/invitations').send(dto).expect(201)
       expect(res.body).toStrictEqual(invitation)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.identity.baseUrl,
-        path: apiConfig.identity.deviceInvitation,
+        baseUrl: ApiConfig.identity.baseUrl,
+        path: ApiConfig.identity.deviceInvitation,
         body: dto
       })
     })
@@ -66,7 +66,7 @@ describe('Devices Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(devices as unknown as Array<Record<string, unknown>>)
       const res = await request(app.getHttpServer()).get('/devices').expect(200)
       expect(res.body).toStrictEqual(devices)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.device.baseUrl, path: '' })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.device.baseUrl, path: '' })
     })
   })
 
@@ -79,8 +79,8 @@ describe('Devices Module (e2e)', () => {
       const res = await request(app.getHttpServer()).get('/devices/invitations').expect(200)
       expect(res.body).toStrictEqual(invitations)
       expect(webclient.get).toHaveBeenCalledWith({
-        baseUrl: apiConfig.identity.baseUrl,
-        path: apiConfig.identity.deviceInvitation
+        baseUrl: ApiConfig.identity.baseUrl,
+        path: ApiConfig.identity.deviceInvitation
       })
     })
   })

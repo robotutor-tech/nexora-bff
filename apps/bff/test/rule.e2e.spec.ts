@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Rule Module (e2e)', () => {
@@ -42,8 +42,8 @@ describe('Rule Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/rules').send(dto).expect(201)
       expect(res.body).toStrictEqual(rule)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.rule.baseUrl,
-        path: apiConfig.rule.rules,
+        baseUrl: ApiConfig.rule.baseUrl,
+        path: ApiConfig.rule.rules,
         body: dto
       })
     })
@@ -57,7 +57,7 @@ describe('Rule Module (e2e)', () => {
       webclient.get.mockResolvedValueOnce(rules as unknown as Array<Record<string, unknown>>)
       const res = await request(app.getHttpServer()).get('/rules').expect(200)
       expect(res.body).toStrictEqual(rules)
-      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: apiConfig.rule.baseUrl, path: apiConfig.rule.rules })
+      expect(webclient.get).toHaveBeenCalledWith({ baseUrl: ApiConfig.rule.baseUrl, path: ApiConfig.rule.rules })
     })
   })
 })

@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { BaseHandler } from './base.handler'
 import { AuthorizationResponse } from '../types/mqtt'
 import { AclRequest } from '../dto/acl.dto'
-import { apiConfig, Webclient } from '@shared'
+import { ApiConfig, Webclient } from '@shared'
 import { CacheService } from '@shared/cache/cache.service'
 import { CacheData } from '@shared/cache/cache'
 
 @Injectable()
 export class ActorAuthorizationHandler extends BaseHandler<AclRequest, AuthorizationResponse> {
-  private readonly identity = apiConfig.identity
+  private readonly identity = ApiConfig.identity
   constructor(
     private readonly webclient: Webclient,
     private readonly cacheService: CacheService

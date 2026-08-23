@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Automation Module (e2e)', () => {
@@ -42,8 +42,8 @@ describe('Automation Module (e2e)', () => {
       const res = await request(app.getHttpServer()).post('/automations').send(dto).expect(201)
       expect(res.body).toStrictEqual(automation)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.automation.baseUrl,
-        path: apiConfig.automation.automations,
+        baseUrl: ApiConfig.automation.baseUrl,
+        path: ApiConfig.automation.automations,
         body: dto
       })
     })
@@ -58,8 +58,8 @@ describe('Automation Module (e2e)', () => {
       const res = await request(app.getHttpServer()).get('/automations').expect(200)
       expect(res.body).toStrictEqual(list)
       expect(webclient.get).toHaveBeenCalledWith({
-        baseUrl: apiConfig.automation.baseUrl,
-        path: apiConfig.automation.automations
+        baseUrl: ApiConfig.automation.baseUrl,
+        path: ApiConfig.automation.automations
       })
     })
   })

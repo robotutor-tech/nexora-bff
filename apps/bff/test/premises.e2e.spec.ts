@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import type { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../src/bff.module'
-import { Webclient, apiConfig } from '@shared'
+import { Webclient, ApiConfig } from '@shared'
 
 jest.mock('logging-starter')
 describe('Premises Module (e2e)', () => {
@@ -50,8 +50,8 @@ describe('Premises Module (e2e)', () => {
 
       expect(res.body).toStrictEqual(payload)
       expect(webclient.post).toHaveBeenCalledWith({
-        baseUrl: apiConfig.premises.baseUrl,
-        path: apiConfig.premises.premises,
+        baseUrl: ApiConfig.premises.baseUrl,
+        path: ApiConfig.premises.premises,
         body: dto
       })
     })
@@ -68,8 +68,8 @@ describe('Premises Module (e2e)', () => {
 
       expect(res.body).toStrictEqual(list)
       expect(webclient.get).toHaveBeenCalledWith({
-        baseUrl: apiConfig.premises.baseUrl,
-        path: apiConfig.premises.premises
+        baseUrl: ApiConfig.premises.baseUrl,
+        path: ApiConfig.premises.premises
       })
     })
   })
@@ -89,8 +89,8 @@ describe('Premises Module (e2e)', () => {
 
       expect(res.body).toStrictEqual(payload)
       expect(webclient.get).toHaveBeenCalledWith({
-        baseUrl: apiConfig.premises.baseUrl,
-        path: apiConfig.premises.premisesDetails,
+        baseUrl: ApiConfig.premises.baseUrl,
+        path: ApiConfig.premises.premisesDetails,
         uriVariables: { premisesId: '1' }
       })
     })
